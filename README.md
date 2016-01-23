@@ -3,13 +3,15 @@
    <tr>
       <th>Project name</th>
       <th>Project type</th>
-      <th>Link</th>
+      <th>Codepen</th>
+      <th>Github.io</th>
       <th>Used resources</th>
    </tr>
    <tr>
      <td>Portfolio</td>
      <td>Basic front end development</td>
-     <td>http://s.codepen.io/bumbeishvili/debug/BjJvgY</td>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe">About me</a></td>
+     <td><a target="blank" href="http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe">About me </a></td>
      <td><pre>
      bootstrap
      jquery
