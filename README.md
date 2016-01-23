@@ -3,8 +3,8 @@
    <tr>
       <th>Project name</th>
       <th>Project type</th>
-      <th>Codepen</th>
-      <th>Github.io</th>
+      <th>Codepen link</th>
+      <th>Github.io link</th>
       <th>Used resources</th>
    </tr>
    <tr>
