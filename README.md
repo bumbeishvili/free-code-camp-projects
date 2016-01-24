@@ -24,8 +24,7 @@
      <td><a target="blank" href="#">Random Quote </a></td>
      <td><pre>
      bootstrap
-     jquery
-     fullpage.js</pre></td>
+     jquery</pre></td>
    </tr>
 </table>
 
