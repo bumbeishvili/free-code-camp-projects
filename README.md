@@ -17,4 +17,15 @@
      jquery
      fullpage.js</pre></td>
    </tr>
+   <tr>
+     <td>RandomQuoteMachine</td>
+     <td>Basic front end development</td>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/obEyoB"Random Quote</a></td>
+     <td><a target="blank" href="#">Random Quote </a></td>
+     <td><pre>
+     bootstrap
+     jquery
+     fullpage.js</pre></td>
+   </tr>
 </table>
+
