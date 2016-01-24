@@ -18,13 +18,14 @@
      fullpage.js</pre></td>
    </tr>
    <tr>
-     <td>RandomQuoteMachine</td>
+     <td>Random Quote Machine</td>
      <td>Basic front end development</td>
      <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/obEyoB">Random Quote</a></td>
-     <td><a target="blank" href="#">Random Quote </a></td>
+     <td><a target="blank" href="http://bumbeishvili.github.io/free-code-camp-projects/RandomQuoteMachine/">Random Quote </a></td>
      <td><pre>
      bootstrap
-     jquery</pre></td>
+     jquery
+     twitter's widget.js</pre></td>
    </tr>
 </table>
 
