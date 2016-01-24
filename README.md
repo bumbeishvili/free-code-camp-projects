@@ -27,5 +27,13 @@
      jquery
      twitter's widget.js</pre></td>
    </tr>
+      <tr>
+     <td>Calculator</td>
+     <td>Basic front end development</td>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wMyxXB">Calculator</a></td>
+     <td><a target="blank" href="http://bumbeishvili.github.io/free-code-camp-projects/Calculator/">Calculator </a></td>
+     <td><pre>
+     jquery</pre></td>
+   </tr>
 </table>
 
