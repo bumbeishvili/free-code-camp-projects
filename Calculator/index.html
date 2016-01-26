@@ -194,7 +194,8 @@
     if (!lastTypedOperationSymbol()) {
       if (typedCyphers.length > 1) {
         typedCyphers.pop();
-        output = getNumber(typedCyphers);
+        if(typedCyphers.length < 15) output = typedCyphers.join("")
+        else output = getNumber(typedCyphers);
       } else {
         typedCyphers = [0];
         output = 0;
@@ -207,9 +208,8 @@
     var value = event.target.id;
     if (lastTyped('=')) reset();
 
-   
     if (value == '.') {
-      if (!pointAlreadyPressed) {
+      if (!symbolPressedOnce('.')) {
         if(lastTypedOperationSymbol()){
            output = '0.';
         }else{
@@ -219,7 +219,11 @@
       }
     } else {
       typedCyphers.push(value);
-      output = getNumber(typedCyphers);
+      if(value=='0' && symbolPressedOnce('.')){
+        output +='0'; 
+      }else{
+         output = getNumber(typedCyphers);
+      }
     }
      log(value);
   };
@@ -263,7 +267,9 @@
     var loged = typedSymbolsLog;
     return ['/', '*', '-', '+', '='].indexOf(loged[loged.length - 1]) !== -1;
   }
-
+function symbolPressedOnce(symbol){
+  return typedCyphers.indexOf(symbol)!=-1;
+}
   function lastTyped(symbol) {
     return typedSymbolsLog[typedSymbolsLog.length - 1] === symbol;
   }
