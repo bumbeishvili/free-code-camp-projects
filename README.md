@@ -33,7 +33,8 @@
      <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wMyxXB">Calculator</a></td>
      <td><a target="blank" href="http://bumbeishvili.github.io/free-code-camp-projects/Calculator/">Calculator </a></td>
      <td><pre>
-     jquery</pre></td>
+     jquery
+     bootstrap</pre></td>
    </tr>
 </table>
 
