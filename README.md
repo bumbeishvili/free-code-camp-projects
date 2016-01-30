@@ -43,6 +43,6 @@
      <td><a target="blank" href="http://bumbeishvili.github.io/free-code-camp-projects/PomodoroClock/">Pomodoro Clock </a></td>
      <td><pre>
      bootstrap
-     Native Javascript</pre></td>
+     Native javascript</pre></td>
 </table>
 
