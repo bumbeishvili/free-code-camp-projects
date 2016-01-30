@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="google" value="notranslate">
+
+
+    <title>CodePen - Pomodoro clock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+
+        <style>
+      .center {
+  margin: 0 auto;
+}
+
+.control {
+  font-size: 19px;
+}
+
+.text-md{
+  min-width:150px;
+}
+h1{
+    margin-top:5px;
+}
+span {
+  font-size: 8px;
+  font-weight: normal;
+}
+
+.btn-info {
+  font-size: 20px;
+}
+
+.btn-sm {
+  margin-bottom: 20px;
+}
+
+.vmargin-lg {
+  margin-top: 60px;
+}
+
+.vmargin-md {
+  margin-top: 20px;
+}
+
+.circle {
+  width: 210px;
+  height: 210px;
+  display: table;
+  margin: 0px auto;
+  border-radius: 50%;
+  background: linear-gradient( to top, green 0%, green 0%, red 0%, red 100%);
+}
+
+.time-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.hcenter {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+  .timerText {
+    color: white;
+    margin-top: -80px;
+    margin-left: -15px;
+  }
+  .time {
+    color: white;
+    margin-left: -5px;
+  }
+
+
+@media screen and (min-width: 1000px) {
+  .circle {
+    margin-left: -70px;
+  }
+
+.timerText {
+  color: white;
+  margin-top: -80px;
+  margin-left: -35px;
+}
+
+.time {
+  color: white;
+  margin-left: -25px;
+  min-width:200px;
+}
+  .controls{
+    margin-left:-35px
+  }
+}
+
+#breakMinutes,#sessionMinutes{
+  margin-top:-10px;
+}
+    </style>
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <h1 class="text-center">Pomodoro Clock</h1>
+<div class="col-xs-12">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 center">
+    <div class="col-xs-6">
+
+      <div class="pull-right">
+        <div class="h4 text-md text-center pull-right">Break length (m)</div>
+        <br>
+        <div class="pull-right">
+          <button id="breakMinutes:-1" type="button" class="btn btn-default btn-sm widget">
+          <span id="breakMinutes:-1" class="glyphicon glyphicon-minus widget" aria-hidden="true"></span>
+        </button>
+        <button id="breakMinutes:1" type="button" class="btn btn-default widget btn-sm ">
+          <span id="breakMinutes:1" class="glyphicon glyphicon-plus widget" aria-hidden="true"></span>
+        </button>
+        <br>
+        <button id="breakMinutes" type="button" class="btn btn-info btn-sm">
+          5
+        </button>
+        </div>
+       
+      </div>
+      <input type="range" min="1" max="480" step="1" class="breakRange" oninput="setBreakVal(this.value)" onchange="setBreakVal(this.value)" style="display:inline">
+    </div>
+
+    <div class="col-xs-6 ">
+      <div class="h4 text-left text-md">Session length(m)</div>
+      <button id="sessionMinutes:-1" class="btn btn-default btn-sm widget">
+        <span id="sessionMinutes:-1" class="glyphicon glyphicon-minus widget" aria-hidden="true"></span>
+      </button>
+
+      <button id="sessionMinutes:1" class="btn btn-default btn-sm widget">
+        <span id="sessionMinutes:1" class="glyphicon glyphicon-plus widget" aria-hidden="true"></span>
+      </button>    
+      <br>
+      <button id="sessionMinutes" class="btn btn-info btn-sm">
+        5
+      </button>
+      <input class="sessionRange" oninput="setSessionVal(this.value)" onchange="setSessionVal(this.value)" type="range" min="1" max="480" step="1" style="display:inline">
+    </div>
+    <div class="col-xs-12">
+      <div class="col-md-4"></div>
+      <div class="col-md-4 ">
+
+        <div class="circle vmargin-lg text-center">
+          <div class="time-center">
+            <p class="timerText h1">Session</p>
+            <p class="time h1"> - - : - -</p>
+          </div>
+        </div>
+        <div class="vmargin-md text-center controls">
+          <div class="btn btn-default control glyphicon start-btn glyphicon-play center"></div>
+          <div class="btn btn-default control glyphicon glyphicon-refresh center"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+    
+    
+        <script>
+      //variables
+var sessionColor = "red";
+var breakColor = "#32cc00";
+var sessionMinutes = 0.25;
+var breakMinutes = 5;
+
+var timerStarted = false;
+var sessionTimerSeconds;
+var breakTimerSeconds;
+
+var currentTimerType = "Session";
+
+var interval;
+
+//invokation
+updateSettingsView();
+updateRange();
+
+//events
+document.onclick = processClicks;
+
+//functions
+f = {
+  get: get,
+  getAll: getAll,
+  updateSettingsView: updateSettingsView,
+  processClicks: processClicks,
+  processSettings: processSettings
+}
+
+//implementations
+function get(selector) {
+  return document.querySelector(selector);
+}
+
+function getAll(selector) {
+  Array.prototype.slice.call(document.querySelectorAll(selector));
+}
+
+function updateSettingsView() {
+  get('#sessionMinutes').innerHTML = getTimerText(sessionMinutes*60);
+  get('#breakMinutes').innerHTML = getTimerText(breakMinutes*60);
+}
+
+function updateRange() {
+  get(".breakRange").value = breakMinutes;
+  get(".sessionRange").value = sessionMinutes;
+}
+
+function processClicks(event) {
+  var el = event.target;
+  if (el.className.indexOf("widget") !== -1) {
+    if (!timerStarted) processSettings(el);
+  } else if (el.className.indexOf("control") !== -1) {
+    processControlClicks(el);
+  }
+};
+
+function processControlClicks(el) {
+  if (el.className.indexOf("glyphicon-play") !== -1) {
+    turnOnTimer(el);
+  } else if (el.className.indexOf("glyphicon-pause") !== -1) {
+    pauseTimer(el);
+  } else if (el.className.indexOf("glyphicon-refresh") !== -1) {
+    refreshTimer();
+  }
+}
+
+function refreshTimer() {
+  get('.start-btn').classList.remove("glyphicon-pause");
+  get('.start-btn').classList.add("glyphicon-play");
+  clearInterval(interval);
+  initialiseTimersValues();
+  timerStarted = false;
+  currentTimerType = "Session";
+  updateFill();
+  get(".time").innerHTML = '- - : - -';
+  setTimerText("Session");
+}
+
+function pauseTimer(el) {
+  el.classList.remove("glyphicon-pause");
+  el.classList.add("glyphicon-play");
+  clearInterval(interval);
+}
+
+function setTimerText(text) {
+  get(".timerText").innerHTML = text;
+}
+
+function turnOnTimer(el) {
+  el.classList.remove("glyphicon-play");
+  el.classList.add("glyphicon-pause");
+
+  if (timerStarted) {
+    interval = setInterval(timerFunction, 1000);
+  } else {
+    initialiseTimersValues();
+    interval = setInterval(timerFunction, 1000);
+    timerStarted = true;
+  }
+}
+
+function timerFunction() {
+  switch (currentTimerType) {
+    case "Session":
+      processSession();
+      break;
+    case "Break":
+      processBreak();
+      break;
+  }
+}
+
+function processBreak() {
+  if (breakTimerSeconds) {
+    breakTimerSeconds -= 1;
+    updateTimeView(breakTimerSeconds);
+    updateFill();
+  } else {
+    changeTimerState("Session")
+  }
+}
+
+function changeTimerState(state) {
+  initialiseTimersValues()
+  currentTimerType = state;
+  ringBell();
+  setTimerText(state);
+}
+
+function processSession() {
+  if (sessionTimerSeconds) {
+    sessionTimerSeconds -= 1;
+    updateTimeView(sessionTimerSeconds);
+    updateFill();
+  } else {
+    changeTimerState("Break");
+  }
+
+}
+
+function ringBell() {
+  var audio = new Audio('http://soundbible.com/mp3/Music_Box-Big_Daddy-1389738694.mp3');
+   audio.play();
+}
+
+function updateTimeView(seconds) {
+  get(".time").innerHTML = getTimerText(seconds);
+}
+
+function initialiseTimersValues() {
+  sessionTimerSeconds = sessionMinutes * 60;
+  breakTimerSeconds = 60 * breakMinutes;
+}
+
+function updateFill() {
+
+  var percent;
+  var color1 = breakColor;
+  var color2 = sessionColor;
+
+  if (currentTimerType == "Session") {
+    percent = 100 - Math.floor((sessionTimerSeconds / (sessionMinutes * 60)) * 100);
+  } else if (currentTimerType == "Break") {
+    percent = 100 - Math.floor((breakTimerSeconds / (breakMinutes * 60)) * 100);
+    color1 = sessionColor;
+    color2 = breakColor;
+  }
+  var styleText = "linear-gradient( to top," + color1 + "  0%," +
+    color1 + " " + percent + "%, " +
+    color2 + " " + percent + "%," +
+    color2 + " 100%)";
+  get(".circle").style.background = styleText;;
+}
+
+function getTimerText(passedSeconds) {
+  var seconds;
+  var minutes;
+  var hours;
+
+  seconds = String(passedSeconds % 60);
+  if (seconds.length == 1) seconds = '0' + seconds;
+
+  hours = Math.floor(passedSeconds / 3600);
+  if (!hours) hours = "";
+  else hours += " : ";
+
+  minutes = String(Math.floor(passedSeconds / 60) % 60);
+  if (hours) {
+    if (minutes.length == 1)
+      minutes = "0" + minutes;
+    minutes += " : ";
+  } else {
+    if (minutes == "0")
+      minutes = "";
+    else minutes += " : ";
+  }
+  return hours + minutes + seconds;
+}
+
+function processSettings(el) {
+  var splitted = el.id.split(":");
+  var result = eval('Number(' +
+    splitted[0] +
+    ') + Number(' +
+    splitted[1] +
+    ")");;
+  if (result > 0) eval(splitted[0] + '=' + result);
+  updateSettingsView();
+  updateRange();
+}
+
+function setBreakVal(value) {
+  if(timerStarted){
+     updateRange();
+  }else{
+      breakMinutes = value;
+      updateSettingsView();
+  }
+
+}
+
+function setSessionVal(value) {
+  if(timerStarted){
+     updateRange();
+  }else{
+  sessionMinutes = value;
+  updateSettingsView();
+  }
+}
+      //@ sourceURL=pen.js
+    </script>
+
+    
+    
+    
+  </body>
+</html>
+ 
