@@ -50,6 +50,10 @@
      <a href="https://jquery.com/">jquery<a/>
      <a href="http://openweathermap.org/api">openWeatherMap API </a>
      <a href="https://erikflowers.github.io/weather-icons/">weather icons</a>
+     <a href="https://arasatasaygin.github.io/is.js/">is.js </a>
+     <a href="http://t4t5.github.io/sweetalert/">sweet alert</a>
+     
+     
      </pre></td>
    </tr>
 </table>
