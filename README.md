@@ -44,7 +44,7 @@
       <th>Used resources</th>
    </tr>
    <tr>
-     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/bEjwLbe">Local Weather</a></td>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/bEjwLb">Local Weather</a></td>
      <td><pre>
      <a href="http://getbootstrap.com/">bootstrap </a>
      <a href="https://jquery.com/">jquery<a/>
