@@ -17,7 +17,7 @@
      <a href="https://erikflowers.github.io/weather-icons/">weather icons</a>
      <a href="https://arasatasaygin.github.io/is.js/">is.js </a>
      <a href="http://t4t5.github.io/sweetalert/">sweet alert</a>
-     <a href = "http://getmdl.io/index.html"> Material design lite </a>
+     <a href = "http://getmdl.io/index.html">Material design lite </a>
      
      </pre></td>
    </tr>
