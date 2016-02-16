@@ -28,7 +28,12 @@
      
      </pre></td>
    </tr>
-   
+    <tr>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/obVoYo">Wikipedia viewer</a></td>
+     <td><pre>
+    Semantic UI
+     </pre></td>
+   </tr>
 </table>
 
 
