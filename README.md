@@ -31,8 +31,7 @@
     <tr>
      <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/obVoYo">Wikipedia viewer</a></td>
      <td><pre>
-     <a href="http://semantic-ui.com/"> Semantic UI</a>
-     </pre></td>
+     <a href="http://semantic-ui.com/"> Semantic UI</a></pre></td>
    </tr>
 </table>
 
