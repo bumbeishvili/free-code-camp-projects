@@ -30,9 +30,14 @@
    </tr>
     <tr>
      <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/obVoYo">Wikipedia viewer</a></td>
-     <td><pre><a href="http://semantic-ui.com/">
+     <td> <pre>
+     <a href="http://semantic-ui.com/">  Semantic UI</a>
+     <a href="https://angularjs.org/">  Angular.js</a>
+     <a href="http://vincentgarreau.com/particles.js/">  Particles.js</a>
      
-     Semantic UI</a></pre></td>
+     
+     
+     </pre></td>
    </tr>
 </table>
 
