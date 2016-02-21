@@ -37,6 +37,16 @@
      <a href="https://www.mediawiki.org/wiki/API:Main_page" > wikipedia api </a></pre></td>
      
    </tr>
+      </tr>
+    <tr>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/VeJbqY">Twitchtv   </a></td>
+     <td> <pre>
+     <a href="http://semantic-ui.com/">  Semantic UI</a>
+     <a href="https://angularjs.org/">  Angular.js</a>
+     <a href="http://qrohlf.com/trianglify/"> trianglify </a>
+     <a href="https://github.com/justintv/Twitch-API/blob/master/v3_resources/streams.md#get-streamschannel" > Twichtv  api </a></pre></td>
+     
+   </tr>
 </table>
 
 
