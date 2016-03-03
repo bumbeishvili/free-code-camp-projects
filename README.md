@@ -1,5 +1,38 @@
 
 
+<h2> Advanced Frond End Development Projects </h2>
+
+<table>
+   <tr>
+      <th>Project name</th>
+      <th>Used resources</th>
+   </tr>
+   
+   
+      <tr>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wMyxXB">Calculator</a></td>
+     <td><pre>
+     <a href="https://jquery.com/">jquery<a/>
+     <a href="http://getbootstrap.com/">bootstrap </a></pre></td>
+   </tr>
+      <tr>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wMmYWr">Pomodoro Clock</a></td>
+     <td><pre>
+     <a href="http://getbootstrap.com/">bootstrap </a>
+     native javascript</pre></td>
+     </tr>
+   
+   <tr>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wGaENr"> Unbeatable TicTacToe   </a></td>
+     <td> <pre>
+     <a href="http://semantic-ui.com/">  Semantic UI</a>
+     <a href="https://angularjs.org/">  Angular.js</a>
+     </pre></td>
+   </tr>
+  
+</table>
+
+
 
 <h2> Intermediate Frond End Development Projects </h2>
 
@@ -50,30 +83,6 @@
 </table>
 
 
-<h2> Advanced Frond End Development Projects </h2>
-
-<table>
-   <tr>
-      <th>Project name</th>
-      <th>Used resources</th>
-   </tr>
-   
-   
-      <tr>
-     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wMyxXB">Calculator</a></td>
-     <td><pre>
-     <a href="https://jquery.com/">jquery<a/>
-     <a href="http://getbootstrap.com/">bootstrap </a></pre></td>
-   </tr>
-      <tr>
-     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wMmYWr">Pomodoro Clock</a></td>
-     <td><pre>
-     <a href="http://getbootstrap.com/">bootstrap </a>
-     native javascript</pre></td>
-     </tr>
-   
-  
-</table>
 
 
 
