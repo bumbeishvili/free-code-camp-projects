@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="google" value="notranslate">
+
+
+    <title>CodePen - Tic Tac Toe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <link rel='stylesheet prefetch' href='//oss.maxcdn.com/semantic-ui/2.1.8/semantic.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css'>
+
+        <style>
+      .wrapper {
+  margin-top: 30px!important;
+}
+
+.squared {
+  margin: 2px;
+  max-width: 100%;
+  height: 90px !important;
+}
+
+.padding-md {
+  padding-top: 20px;
+}
+.padding-lg {
+  padding-top: 40px;
+}
+.padding-b-sm {
+  padding-bottom: 20px !important;
+}
+.margin-t-md{
+  margin-top:30px !important;
+}
+.margin-b-md{
+    margin-bottom:30px !important;
+}
+.bg-info {
+  background-color: blue;
+  color: white;
+}
+
+.bg-info:hover {
+  background-color: black;
+  color: white;
+}
+
+.column {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.compact {
+  max-width: 500px;
+  min-height: 300px;
+  margin: 30px !important;
+}
+
+.text-wide{
+  min-width:300px;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.text-md {
+  font-size: 60px;
+}
+
+.text-sm{
+  font-size:50px;
+}
+
+ .text-sm-mobile{
+    font-size:47px;
+  }
+
+.grey {
+  color: grey !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.text-center-horizontal {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+@media screen and (min-width:960px) {
+  .centered {
+    width: 40%;
+    margin: 0 auto;
+  }
+  .results{
+    margin-left:85px !important;
+  }
+  .text-sm-mobile{
+    font-size:60px;
+  }
+}
+
+.centered-mobile {
+  width: 40%;
+  margin: 0 auto;
+  
+}
+
+
+.sweet-alert button.cancel{
+background-color: #76DD55;
+}
+.sweet-alert button.cancel:hover{
+background-color: #17732D;
+}
+
+.sweet-alert button.confirm{
+background-color: #7AC2E2;
+}
+.sweet-alert button.confirm:hover{
+background-color:#1A6181 !important;
+}
+    </style>
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <div class="wrapper" ng-app='TicTacToe' ng-controller='TicTacToeCtrl as t'>
+  <div class="padding-md grey padding-b-sm ">
+    <h1 class="text-center-horizontal margin-b-md text-sm text-wide">Tic Tac Toe</h1></div>
+  <div class="centered">
+    <div class='ui grid three column compact'>
+      <div class='column ' ng-repeat='square in t.board track by $index'>
+        <div class=' squared bg-info pointer' ng-click="t.setSymbolByPlayer($index)">
+          <span class="text-center value" > {{square}} </span>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="row results margin-t-md margin-b-md">
+        <div class="{{t.scores.lose<9?'text-md':'text-sm-mobile'}} grey   "><i class="user icon"></i> {{t.scores.win}} : {{t.scores.lose}} &nbsp;<i class="desktop icon"></i> </div>
+      </div>
+      <div class="ui horizontal statistic">
+  <div class="value grey text-sm ">
+     game was played <span ng-bind='t.scores.win+t.scores.lose+t.scores.draw'></span> times
+  </div>
+</div>
+    </div>
+    
+    <script src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js'></script>
+
+        <script>
+      var app = angular.module('TicTacToe', []);
+
+app.controller('TicTacToeCtrl', function($scope) {
+  var $tic = this;
+
+  initialiseGame($tic, function(tic, game) {
+    tic.game = game;
+    tic.board = game.getEmptyBoard();
+    tic.scores = game.scores;
+    updateScoresFromLocalStorage(game.scores);
+    game.firstStep(tic.board);
+    $scope.$apply();
+  });
+
+  $tic.setSymbolByPlayer = function(index) {
+    if (!$tic.board[index]) {
+
+      $tic.board[index] = $tic.game.getPlayer();
+      var result = checkGame($tic.board, $tic.game,$scope);
+      if (result == 'continue') {
+        //makeFirstNonNullMove($tic.board, $tic.game.getAIPlayer());
+        makeBestMove($tic.game, $tic.board, $tic.game.getAIPlayer(), $tic.game.getPlayer(), $tic.game.getAIPlayer());
+        //minimax(game, $tic.board, computer, player, computer);
+        checkGame($tic.board, $tic.game,$scope);
+      }
+    }
+  }
+});
+
+function Game(mainPlayer, mainComputer) {
+  var player = mainPlayer;
+  var computer = mainComputer;
+  this.scores = {
+    win: 0,
+    lose: 0,
+    draw: 0
+  }
+
+  var winLines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+
+  var possibleBenefitalLines = {
+    '0': [
+      [0, 1, 2],
+      [0, 4, 8],
+      [0, 3, 6]
+    ],
+    '1': [
+      [0, 1, 2],
+      [1, 4, 7]
+    ],
+    '2': [
+      [0, 1, 2],
+      [2, 5, 8],
+      [2, 4, 6]
+    ],
+    '3': [
+      [3, 4, 5],
+      [0, 3, 6]
+    ],
+    '4': [
+      [3, 4, 5],
+      [0, 4, 8],
+      [1, 4, 7],
+      [2, 4, 6]
+    ],
+    '5': [
+      [3, 4, 5],
+      [2, 5, 8]
+    ],
+    '6': [
+      [6, 7, 8],
+      [2, 4, 6],
+      [0, 3, 6]
+    ],
+    '7': [
+      [6, 7, 8],
+      [1, 4, 7]
+    ],
+    '8': [
+      [6, 7, 8],
+      [0, 4, 8],
+      [2, 5, 8]
+    ]
+  }
+
+  var corners = [0, 2, 6, 8];
+  var oppositeCorners = [8, 6, 2, 0]
+  var cells = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  this.getWinLine = function(board, symbol) {
+    debugger;
+    var ourLine;
+    winLines.forEach(function(line) {
+      if (board[line[0]] === symbol &&
+        board[line[1]] === symbol &&
+        board[line[2]] === symbol)
+        ourLine = line;
+    });
+    return ourLine;
+  };
+  this.getWinningPositionIfExists = function(board, player) {
+    var move;
+    var win = this.win;
+    var moves = this.getAvailableMoves(board);
+    moves.forEach(function(v) {
+      board[v.index] = player; // simulate
+      if (win(board, player)) {
+        move = v.index;
+      }
+      board[v.index] = ''; //undo
+    });
+    return move;
+  }
+
+  this.getOponentsWinDisablePositionIfExists = function(board, player) {
+    return this.getWinningPositionIfExists(board, this.change(player))
+  }
+  this.getForkPositionIfExists = function(board, player) {
+    //TODO
+  }
+  this.getOponentsForkingBlockPositionIfExists = function(board) {
+
+  }
+  this.getCenterIfIsEmpty = function(board) {
+    if (board[4] == '') return 4;
+  }
+  this.getOppositeCornerIfExists = function(board, oponent) {
+    var move;
+    corners.forEach(function(v, i) {
+      var opposite = oppositeCorners[i];
+      if (board[v] == oponent && board[opposite] == '') {
+        move = opposite;
+      }
+    });
+    return move;
+  }
+  this.getCornerMoveIfExists = function(board, player) {
+    var move;
+    var currentBenefit = 0;
+    var benefit = this.getBenefitFromMove;
+    var changePlayer = this.change;
+    corners.forEach(function(v) {
+      if (board[v] == '') {
+        var newBenefit = benefit(board, v, player, changePlayer);
+        debugger;
+        if (newBenefit > currentBenefit) {
+          move = v;
+          currentBenefit = newBenefit;
+        }
+      }
+    });
+    return move;
+  }
+  this.getEmptyMove = function(board) {
+    for (var i = 0; i < board.length; i++) {
+      if (!board[i]) {
+        return i;
+      }
+    };
+  };
+
+  this.getPlayer = function() {
+    return player;
+  }
+  this.getAIPlayer = function() {
+    return computer;
+  }
+  this.getBenefitFromMove = function(board, move, player, changePlayer) {
+    var benefitCounter = 0;
+    var oponent = changePlayer(player);
+    var lines = possibleBenefitalLines[move.toString()];
+    lines.forEach(function(line) {
+      var matchCount = 0;
+      line.forEach(function(cell) {
+        if (board[cell] != oponent) {
+          matchCount++;
+        }
+      });
+      if (matchCount == 3) benefitCounter++;
+    });
+
+    return benefitCounter;
+
+  };
+  this.win = function(board, symbol) {
+    var result = false;
+    winLines.forEach(function(line) {
+      if (board[line[0]] === symbol &&
+        board[line[1]] === symbol &&
+        board[line[2]] === symbol)
+        result = true;
+    });
+    return result;
+  }
+  this.changeFirstPlayer = function(condition) {
+    if (condition == 'win' && player == 'X') return;
+    if (condition == 'lose' && player == 'O') return;
+    var temp = player;
+    player = computer;
+    computer = temp;
+  }
+
+  this.allCellsAreOccupied = function(board) {
+    var sum = board.map(function(val) {
+        return val ? 1 : 0;
+      })
+      .reduce(function(p, n) {
+        return p + n;
+      });
+
+    if (sum == 9)
+      return true;
+    else return false;
+  }
+
+  this.over = function(board) {
+    if (this.allCellsAreOccupied(board))
+      return true;
+    if (this.win(board, 'X'))
+      return true;
+    if (this.win(board, 'O'))
+      return true;
+    return false;
+  }
+
+  this.getAvailableMoves = function(board) {
+    return board.map(function(v, i) {
+      if (v)
+        return -1;
+      return {
+        index: i
+      };
+    }).filter(function(v) {
+      return v != -1;
+    });
+  }
+
+  this.firstStep = function(board) {
+    if (computer == 'X') {
+      board[4] = 'X';
+    }
+  }
+  this.getEmptyBoard = function() {
+    return ['', '', '', '', '', '', '', '', '']
+    return Array.apply(null, Array(9)).map(function() {
+      return '';
+    });
+  }
+
+  this.change = function(turn) {
+    if (turn === 'X')
+      return 'O';
+    return 'X';
+  }
+
+}
+
+function print(board) {
+  board = board.map(function(v) {
+    if (!v) return '•';
+    return v;
+  })
+  for (var i = 0; i < board.length; i += 3) {
+    console.log(board[i] + ' ' + board[i + 1] + ' ' + board[i + 2]);
+  }
+
+}
+
+function getBestMove(game, board, player, oponent, currentTurn, level) {
+  var move;
+  if (null != (move = game.getWinningPositionIfExists(board, currentTurn))) {
+    return move;
+  }
+  if (null != (move = game.getOponentsWinDisablePositionIfExists(board, currentTurn))) {
+    return move;
+  }
+  if (null != (move = game.getForkPositionIfExists(board))) {
+    return move;
+  }
+  if (null != (move = game.getOponentsForkingBlockPositionIfExists(board))) {
+    return move;
+  }
+  if (null != (move = game.getCenterIfIsEmpty(board))) {
+    return move;
+  }
+  if (null != (move = game.getOppositeCornerIfExists(board, oponent))) {
+    return move;
+  }
+  if (null != (move = game.getCornerMoveIfExists(board, currentTurn))) {
+    return move;
+  }
+  return game.getEmptyMove(board);
+};
+
+function processGameEnding(condition, board, game,scope) {
+
+  highlightResult(game,board);
+
+  setTimeout(function() {
+    processEndGameCondition(condition, game);
+    saveScoresToLocalStorage(game.scores);
+    debugger;
+    restartGame(board, game);
+    scope.$apply();
+  }, 1000);
+
+}
+
+function highlightResult(game, board) {
+  var line;
+    debugger;
+  if (!(line = game.getWinLine(board,'X'))) {
+    line = game.getWinLine(board,'O');
+  };
+
+  if (line) {
+    for (var i = 0; i < board.length; i++) {
+      if (line.indexOf(i) == -1) board[i] = '';
+    }
+  }
+
+}
+
+function saveScoresToLocalStorage(scores) {
+  localStorage.setItem('scores', JSON.stringify(scores));
+}
+
+function processEndGameCondition(condition, game) {
+  switch (condition) {
+    case 'win':
+      game.scores.win++;
+      swal('You win!', '', 'success');
+      break;
+    case 'lose':
+      game.scores.lose++;
+      swal("You lose!", '', 'error');
+      break;
+    case 'draw':
+      game.scores.draw++;
+      swal("It's draw!", '', 'warning');
+      break;
+  }
+  game.changeFirstPlayer(condition);
+}
+
+function restartGame(board, game) {
+  clearBoard(board);
+  game.firstStep(board);
+}
+
+function clearBoard(board) {
+  board.forEach(function(v, i) {
+    board[i] = '';
+  });
+}
+
+function checkGame(board, game,scope) {
+  var p = game.getPlayer();
+  var ai = game.getAIPlayer();
+  var condition;
+
+  if (game.win(board, p)) {
+    condition = 'win';
+  } else if (game.win(board, ai)) {
+    condition = 'lose'
+  } else if (game.allCellsAreOccupied(board)) {
+    condition = 'draw'
+  } else return 'continue';
+
+  processGameEnding(condition, board, game,scope);
+}
+
+function makeFirstNonNullMove(board, currentSymbol) {
+  var result;
+  for (var i = 0; i < board.length; i++) {
+    if (!board[i]) {
+      result = i;
+      break;
+    }
+  };
+  board[i] = currentSymbol;
+}
+
+function updateScoresFromLocalStorage(scores) {
+  var retrievedScores = JSON.parse(localStorage.getItem('scores'));
+  if (retrievedScores) {
+    scores.win = retrievedScores.win;
+    scores.lose = retrievedScores.lose;
+    scores.draw = retrievedScores.draw;
+  }
+}
+
+function initialiseGame(tic, callBack) {
+  swal({
+    title: "Choose symbol ... ",
+    type: "info",
+    showCancelButton: true,
+    confirmButtonText: "O",
+    cancelButtonText: "X",
+  }, function(isConfirm) {
+    var game;
+    if (isConfirm) {
+      game = new Game('O', 'X')
+    } else {
+      game = new Game('X', 'O');
+    };
+    callBack(tic, game);
+  });
+
+}
+
+function makeBestMove(game, board, AI, oponent, AISymbol) {
+  debugger;
+  var bestMove = getBestMove(game, board, AI, oponent, AISymbol, 1);
+  debugger;
+  board[bestMove] = AISymbol;
+}
+      //@ sourceURL=pen.js
+    </script>
+
+    
+    
+    
+  </body>
+</html>
+ 
