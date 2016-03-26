@@ -23,7 +23,7 @@
      </tr>
    
    <tr>
-     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wGaENr"> Unbeatable TicTacToe   </a></td>
+     <td> <a target="blank" href="http://s.codepen.io/bumbeishvili/debug/wGaENr">  TicTacToe   </a></td>
      <td> <pre>
      <a href="http://semantic-ui.com/">  Semantic UI</a>
      <a href="https://angularjs.org/">  Angular.js</a>
