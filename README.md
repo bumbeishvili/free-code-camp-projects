@@ -6,7 +6,7 @@
 | ---                    | :---:                                       |
 | [Calculator][calc]     | [jquery][jq]  <br>[bootstrap][btstrp]       |
 | [Pomodoro Clock][pom]  | [bootstrap][btstrp] <br> Native js          |
-| [TicTacToe][ttt]       | [angular.js][ang] <br> [Semantic-ui][smui]  |
+| [Simon game][simon]    |   |
 
 
 ## Intermediate Frond End Development Projects 
@@ -37,6 +37,7 @@
 [twich]:http://s.codepen.io/bumbeishvili/debug/VeJbqY
 [trib]:http://s.codepen.io/bumbeishvili/debug/NxoQEa
 [portf]:http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe
+[simon]:https://codepen.io/bumbeishvili/debug/GZEwmY
 
 
 [jq]:https://jquery.com/
