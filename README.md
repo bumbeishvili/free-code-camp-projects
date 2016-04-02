@@ -7,7 +7,7 @@
 | [Calculator][calc]     | [jquery][jq]  <br>[bootstrap][btstrp]       |
 | [Pomodoro Clock][pom]  | [bootstrap][btstrp] <br> Native js          |
 | [TicTacToe][ttt]       | [angular.js][ang] <br> [Semantic-ui][smui]  |
-| [Simon game][simon]    |   |
+| [Simon game][simon]    |  [JQuery][jq]<br> [Semantic-ui][smui] |
 
 
 ## Intermediate Frond End Development Projects 
