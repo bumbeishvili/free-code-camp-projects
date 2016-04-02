@@ -17,7 +17,7 @@
 | [Random Quote Machine][rqm]      | [jquery][jq]  <br>[bootstrap][btstrp]<br> [tweet button][twbtn]      |
 | [Local Weather][lw]              | [bootstrap][btstrp]<br>[jquery][jq]<br>[openWeatherMap API][owm]<br>[weather icons][weico]<br>[sweet alert][swal]<br>[Material design lite][matdl]      |
 | [Wikipedia viewer][wv]           | [angular.js][ang] <br> [Semantic-ui][smui]<br>[particles.js][part]<br>[wikipedia api][wiki]  |
-| [TwichTV][twich]                 | [angular.js][ang] <br> [Semantic-ui][smui]<br>[trianglify][triang]<br>[Twichtv  api][twich]  |
+| [TwichTV][twich]                 | [angular.js][ang] <br> [Semantic-ui][smui]<br>[trianglify][triang]<br>[Twichtv  api][twichapi]  |
 
 
 ##  Basic Frond End Development Projects 
@@ -54,4 +54,4 @@
 [part]:http://vincentgarreau.com/particles.js/
 [wiki]:https://www.mediawiki.org/wiki/API:Main_page
 [triang]:http://qrohlf.com/trianglify/
-[twich]:https://github.com/justintv/Twitch-API/blob/master/v3_resources/streams.md#get-streamschannel
+[twichapi]:https://github.com/justintv/Twitch-API/blob/master/v3_resources/streams.md#get-streamschannel
