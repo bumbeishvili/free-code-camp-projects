@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="google" value="notranslate">
+
+
+    <title>CodePen - Simon Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css'>
+
+        <style>
+      .circular{
+  padding:60px!important;
+  display:block !important;
+  margin:10px!important;
+  cursor:pointer;
+  border-radius:10px!important;
+}
+.ui.circular.segment {
+    display: table-cell;
+    padding: 2em;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 500em;
+    margin: 10px !important;
+}
+.circle-wrapper{
+  margin:0 auto !important;
+  display:inline-block ;
+  clear:both;
+  margin-bottom:20px!important;
+  margin-top:20px !important;
+}
+
+.segment{
+  margin:auto!important;
+}
+.container{
+  text-align:center;
+}
+.checkbox{
+  margin-right:40px;
+}
+.column{
+  margin-bottom:10px!important;
+  margin-right:30px!important;
+}
+
+.container{
+  margin:15px;
+  margin-top:25px;
+}
+
+.cblue{
+  background-color:blue!important;
+}
+
+.cpurple{
+  background-color:purple!important;
+}
+
+.cgreen{
+  background-color:green!important;
+}
+
+.corange{
+  background-color:orange!important;
+}
+.black{
+  background-color:black !important;
+}
+
+.red{
+  background-color:red !important;
+}
+
+.directive{
+  position:fixed !important;
+  dislay:inline-block;
+  background-color:yellow;
+  top:4px;
+  opacity:0.8!important;
+}
+
+    </style>
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <audio AUTOPLAY>
+</audio>
+<div id="directive" class='directive ui left pointing blue label'></div>
+<div class="container">
+  <div class="ui statistic">
+    <div id="currentStep" class="value">
+
+    </div>
+    <div class="label">
+      current step
+    </div>
+  </div>
+
+  <div class="ui statistic">
+    <div id="winQuantity" class="value">
+
+    </div>
+    <div class="label">
+      win quantity
+    </div>
+  </div>
+
+
+  <div class="all-circles-wrapper">
+    <div class="circle-wrapper">
+      <div id="blue" class="ui circular   segment cblue">
+      </div>
+      <div id="purple" class="ui  circular  segment cpurple">
+      </div>
+    </div>
+    <div class="circle-wrapper">
+      <div id="green" class="ui circular segment cgreen ">
+      </div>
+      <div id="orange" class="ui circular segment corange">
+      </div>
+    </div>
+  </div>
+
+  <div id="strictMode" class="ui toggle checkbox">
+    <input  type="checkbox" tabindex="0" class="hidden">
+    <label>Strict Mode</label>
+  </div>
+  <button id="startButton" class="ui primary button"></button>
+
+
+</div>
+    
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js'></script>
+
+        <script>
+      function Game(passedDisplay) {
+  var that = this;
+  var MAX_ORDER_SEQUENCE = 20;
+
+  var display = passedDisplay;
+
+  var currentStep = 0;
+  var winQuantity = getSavedWinQuantity();;
+  var userClickIndex = 0;
+
+  var strictMode = false;
+  var gameStarted = false;
+  var circleClickEnabled = false;
+
+  var directive = "Press start";
+  var startButtonTitle = "start";
+
+  var order = [];
+
+  this.getCurrentStep = getCurrentStep;
+  this.getWinQuantity = getWinQuantity;
+  this.getDirective = getDirective;
+  this.getStrictMode = getStrictMode;
+  this.getStartButtonTitle = getStartButtonTitle;
+  this.toggleStrictMode = toggleStrictMode;
+  this.getOrder = getOrder;
+
+  display.updateUI(this);
+
+  function getCurrentStep() {
+    return currentStep;
+  }
+
+  function getWinQuantity() {
+    return winQuantity;
+  }
+
+  function getStrictMode() {
+    return strictMode;
+  }
+
+  function getDirective() {
+    return directive;
+  }
+
+  function getStartButtonTitle() {
+    return startButtonTitle;
+  }
+
+  function getOrder(index) {
+    return order[index];
+  }
+
+  function startAgain() {
+    userClickIndex = 0;
+    display.startAnimating(that);
+  }
+
+  function toggleStrictMode() {
+    strictMode = !strictMode;
+    display.updateStrictMode(that);
+  }
+
+  function saveWinQuantity() {
+    localStorage.setItem('winQuantity', winQuantity);
+  };
+
+  function getSavedWinQuantity() {
+    var retrievedObject = localStorage.getItem('winQuantity');
+    if (retrievedObject != null) return retrievedObject;
+    return 0;
+  }
+
+  function getNewRandomCircleIndex() {
+    if (!order.length) {
+      var date = new Date();
+      return date.getMilliseconds() % 4;
+    }
+    var notRepeatedArray = [0, 1, 2, 3].filter(function(v) {
+      return v !== order[order.length - 1]
+    });
+    var randIndex = utils.randomIntFromInterval(0, 2);
+    return notRepeatedArray[randIndex];
+  }
+
+  function win() {
+    that.setDirective("you have won!!! ");
+    display.makeWinSound();
+    winQuantity += 1;
+    saveWinQuantity();
+    display.updateWinQuantity(that);
+
+    setTimeout(function() {
+      restartGame();
+    }, 1000);
+
+  }
+
+  function addLevelDifficulty() {
+    if (++userClickIndex == order.length) {
+      if (order.length == MAX_ORDER_SEQUENCE) {
+        win();
+      } else {
+        order.push(getNewRandomCircleIndex());
+        that.incrementCurrentStep();
+        startAgain();
+      }
+    }
+  }
+
+  function startGame() {
+    gameStarted = true;
+    order.push(getNewRandomCircleIndex());
+    that.setStartButtonTitle('restart');
+    display.startAnimating(that, function() {});
+  }
+
+  function restartGame() {
+    order = [];
+    order.push(getNewRandomCircleIndex());
+    userClickIndex = 0;
+    that.emptyCurrentStep();
+    display.startAnimating(that, function() {});
+  }
+
+  function chooseCircle(clickedCircle) {
+    var clickedCircleIndex = display.getClickedIndex(clickedCircle);
+
+    if (order[userClickIndex] == clickedCircleIndex) {
+      display.processSuccessClick(clickedCircle);
+      display.makeSound(clickedCircleIndex);
+      addLevelDifficulty();
+    } else {
+      that.setDirective("wrong choice");
+      that.enableCircleClick(false);
+      display.processErrorClick(clickedCircle);
+      display.makeErrorSound();
+      setTimeout(function() {
+        if (strictMode) {
+          restartGame();
+        } else {
+          startAgain();
+        }
+      }, 1000);
+    }
+  }
+
+  this.processCircleClick = function(event) {
+    if (circleClickEnabled) {
+      var clickedCircle = event.target;
+      chooseCircle(clickedCircle);
+    }
+  }
+
+  this.processStartButtonClick = function(event) {
+    if (!gameStarted) {
+      startGame();
+    } else {
+      restartGame();
+    }
+  }
+
+  this.incrementCurrentStep = function() {
+    currentStep++;
+    display.updateCurrentStep(this);
+  }
+
+  this.emptyCurrentStep = function() {
+    currentStep = 0;
+    display.updateCurrentStep(this);
+  }
+
+  this.updateCurrentStep = function() {
+    currentStep = order.length;
+    display.updateCurrentStep(this);
+  }
+
+  this.setDirective = function(newDirective) {
+    directive = newDirective;
+    display.updateDirective(this);
+  }
+
+  this.setStartButtonTitle = function(title) {
+    startButtonTitle = title;
+    display.updateStartButton(this);
+  }
+
+  this.enableCircleClick = function(flag) {
+    circleClickEnabled = flag;
+  }
+}
+
+function Display() {
+  var directive;
+  var currentStep;
+  var winQuantity;
+  var strictMode;
+
+  var startButton = "Press start";
+  var circles = [];
+  
+  var errorSound = new Audio('http://www.soundjig.com/pages/soundfx/beeps.php?mp3=beep10.mp3');
+  var sounds = [];
+  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'));
+  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'));
+  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'));
+  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'));
+  var winSound = new Audio('http://soundbible.com/mp3/Ta Da-SoundBible.com-1884170640.mp3');
+
+  this.makeSound = makeSound;
+  this.makeErrorSound = makeErrorSound;
+  this.makeWinSound = makeWinSound;
+
+  initialise();
+
+  this.initialiseSemantic = function() {
+    $('.ui.checkbox').checkbox();
+  }
+
+  this.updateUI = function(game) {
+    this.updateDirective(game);
+    this.updateCurrentStep(game);
+    this.updateWinQuantity(game);
+    this.updateStrictMode(game);
+    this.updateStartButton(game);
+  }
+
+  this.updateDirective = function(game) {
+    directive.innerHTML = game.getDirective();;
+  }
+  this.updateCurrentStep = function(game) {
+    currentStep.innerHTML = game.getCurrentStep();
+  }
+  this.updateWinQuantity = function(game) {
+    winQuantity.innerHTML = game.getWinQuantity();
+  }
+  this.updateStrictMode = function(game) {
+    strictMode.checked = game.getStrictMode();
+  }
+  this.updateStartButton = function(game) {
+    startButton.innerHTML = game.getStartButtonTitle();
+  }
+
+  this.getClickedIndex = function(clickedCircle) {
+    var clickedIndex = circles.map(function(v) {
+      return v.id;
+    }).indexOf(clickedCircle.id);
+    return clickedIndex;
+  }
+
+  this.processSuccessClick = function(clickedCircle) {
+    simulateClick(clickedCircle, " black");
+  };
+
+  this.processErrorClick = function(clickedCircle) {
+    simulateClick(clickedCircle, ' red');
+  }
+
+  function simulateClick(clickedCircle, className) {
+    darkenCircle(clickedCircle, className);
+    setTimeout(function() {
+      lighten(clickedCircle, className)
+    }, 500);
+  }
+
+  this.startAnimating = function(game) {
+    setTimeout(function() {
+      game.setDirective("follow click order with attention");
+      game.enableCircleClick(false);
+      var currentIndex = 0;
+      var currentOrder;
+      var previousCircle;
+      var func = setInterval(function() {
+        if (previousCircle) lighten(previousCircle);
+        currentOrder = game.getOrder(currentIndex++)
+        if (currentOrder != null) {
+          darkenCircle(circles[currentOrder]);
+          makeSound(currentOrder);
+          previousCircle = circles[currentOrder];
+        } else {
+          clearInterval(func);
+          game.setDirective("repeat order");
+          game.enableCircleClick(true);
+        }
+      }, 1000);
+    }, 1000)
+
+  }
+
+  function initialise() {
+    directive = el("directive");
+    currentStep = el("currentStep");
+    winQuantity = el("winQuantity");
+    strictMode = el("strictMode");
+    startButton = el("startButton");
+
+    circles.push(el("blue"));
+    circles.push(el("green"));
+    circles.push(el("purple"));
+    circles.push(el("orange"));
+  }
+
+  function el(id) {
+    return document.getElementById(id);
+  }
+
+  function darkenCircle(circle, className) {
+    circle.className = circle.className + (className ? className : " black");
+  }
+
+  function lighten(circle, className) {
+    return circle.className = circle.className.replace(className ? className : "black", "");
+  }
+
+  function makeWinSound() {
+    winSound.play();
+  }
+
+  function makeErrorSound() {
+    errorSound.play();
+  }
+
+  function makeSound(index) {
+
+    sounds[index].play();
+  }
+
+}
+
+utils = {
+  randomIntFromInterval: function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+}
+
+$(document).ready(function() {
+  var display = new Display();
+  display.initialiseSemantic();
+  var game = new Game(display);
+  //events
+  $('.circular').click(game.processCircleClick);
+  $('#startButton').click(game.processStartButtonClick);
+  $('#strictMode').click(game.toggleStrictMode)
+});
+      //@ sourceURL=pen.js
+    </script>
+
+    
+    
+    
+  </body>
+</html>
+ 
