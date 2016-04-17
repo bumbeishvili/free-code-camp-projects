@@ -1,5 +1,11 @@
 
 
+## Data visualization Projects
+
+| Project name           | Used resources                              |
+| ---                    | :---:                                       |
+| [bar chart][bar]     | [jquery][jq]  <br>[bootstrap][btstrp] <br>[D3][d3]       |
+
 ## Advanced Frond End Development Projects
 
 | Project name           | Used resources                              |
@@ -39,6 +45,7 @@
 [trib]:http://s.codepen.io/bumbeishvili/debug/NxoQEa
 [portf]:http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe
 [simon]:https://codepen.io/bumbeishvili/debug/GZEwmY
+[bar]:http://codepen.io/bumbeishvili/debug/bpMMVR
 
 
 [jq]:https://jquery.com/
@@ -55,3 +62,4 @@
 [wiki]:https://www.mediawiki.org/wiki/API:Main_page
 [triang]:http://qrohlf.com/trianglify/
 [twichapi]:https://github.com/justintv/Twitch-API/blob/master/v3_resources/streams.md#get-streamschannel
+[d3]:https://d3js.org/
