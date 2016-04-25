@@ -4,7 +4,10 @@
 
 | Project name           | Used resources                              |
 | ---                    | :---:                                       |
-| [bar chart][bar]     | [jquery][jq]  <br>[bootstrap][btstrp] <br>[D3][d3]       |
+| [bar chart][bar]       |  [D3][d3]                                   |
+| [scatterplot ][scat]   |  [D3][d3]                                   |
+
+
 
 ## Advanced Frond End Development Projects
 
@@ -46,6 +49,7 @@
 [portf]:http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe
 [simon]:https://codepen.io/bumbeishvili/debug/GZEwmY
 [bar]:http://codepen.io/bumbeishvili/debug/bpMMVR
+[scat]:http://codepen.io/bumbeishvili/pen/JXadpY
 
 
 [jq]:https://jquery.com/
