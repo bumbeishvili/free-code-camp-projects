@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="google" value="notranslate">
+
+
+    <title>CodePen - Visualize Data with a bar chart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+    
+        <style>
+      .container{
+  border-style: outset;
+  display:inline-block;
+  margin:0 auto;
+  display:table;
+  margin-top:20px;
+}
+
+h1{
+  text-align:center;
+  color:grey;
+  position:relative;
+  margin: 0 auto;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 100px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: aquamarine    ;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+    </style>
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <div class="container">
+  <h1> USA, Gross Domestic Product (billion $)</h1>
+      <div class='bar'></div>
+<div>
+    
+    <script src='//cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js'></script>
+
+        <script>
+      var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+
+
+function drawBar(data) {
+  var config = {
+    svgHeight: 500,
+    svgWidth: 0
+  }
+
+  configureByScreen(config);
+
+  var svg = d3.select('.bar').append('svg').attr('height', config.svgHeight).attr('width', config.svgWidth);
+
+  var padding = 50;
+  var diagramHeight = config.svgHeight - padding;
+  var diagramWidth = config.svgWidth - padding;
+
+  var singleBarWidth = diagramWidth / data.length;
+
+  var yScale = d3.scale.linear()
+    .domain([0, d3.max(data, function(o) {
+      return o.value
+    }) * 1.15])
+    .range([diagramHeight, 0]);
+
+  var xScale = d3.scale.linear()
+    .domain([0, data.length])
+    .range([0, diagramWidth]);
+
+  var rects =
+    svg.selectAll('rect')
+    .data(data)
+    .enter()
+    .append('rect')
+    .attr('width', singleBarWidth)
+    .attr('height', function(v) {
+      return diagramHeight - yScale(v.value);
+    })
+    .attr('y', function(v) {
+      return padding / 2 + yScale(v.value);
+    })
+    .attr('fill', 'Turquoise ')
+    .attr('stroke', 'Turquoise')
+    .attr('x', function(d, i) {
+      return padding / 2 + i * singleBarWidth;
+    })
+
+  var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient('right')
+    .ticks(10)
+    .tickFormat(function(d) {
+      return d > 0 ? d : '';
+    });;
+
+  svg.append('g')
+    .attr('fill', 'none')
+    .attr('stroke', 'black')
+    .attr("shape-rendering", 'crispEdges')
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', '14px')
+    .attr("transform", "translate(" + padding / 2 + "," + (padding / 2) + ")")
+    .call(yAxis);
+
+  var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient('bottom')
+    .ticks(diagramWidth < 360 ? 5 : 10)
+    .tickFormat(function(d) {
+      return data[d].date.substring(0, 4);
+    });
+
+  svg.append('g')
+    .attr('fill', 'none')
+    .attr('stroke', 'black')
+    .attr("shape-rendering", 'crispEdges')
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', '14px')
+    .attr("transform", "translate(" + padding / 2 + "," + (diagramHeight + padding / 2) + ")")
+    .call(xAxis);
+
+  // Define the div for the tooltip
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+  rects.on("mouseover", function(d) {
+      var rect = d3.select(this);
+      rect.attr('fill', 'black ');
+      div.transition()
+        .duration(200)
+        .style("opacity", .9);
+    debugger;
+    
+    var date = new Date(d.date);
+    var dateText = date.getFullYear()+' - '+monthNames[date.getMonth()] + '';
+    var moneyText = numeral(d.value).format('$0,0.00')+' billion';
+     
+    div.html('<b>'+dateText+'</b><br>'+moneyText)
+        .style("left", (d3.event.pageX + 10) + "px")
+        .style("top", (d3.event.pageY - 40) + "px");
+    
+    })
+    .on("mouseout", function(d) {
+      var rect = d3.select(this);
+      rect.attr('fill', 'Turquoise')
+      div.transition()
+        .style("opacity", 0);
+    });
+
+}
+
+function configureByScreen(config) {
+  var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  config.svgWidth = screenWidth > 760 ? 760 : screenWidth;;
+}
+
+d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json', function(json) {
+  console.log(json);
+  // modify data structure
+  var data = json.data.map(function(v) {
+    return {
+      date: v[0],
+      value: v[1]
+    };
+  });
+  console.log(data);
+  drawBar(data);
+});
+      //@ sourceURL=pen.js
+    </script>
+
+    
+    
+    
+  </body>
+</html>
+ 
