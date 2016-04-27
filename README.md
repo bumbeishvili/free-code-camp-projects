@@ -49,7 +49,7 @@
 [portf]:http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe
 [simon]:https://codepen.io/bumbeishvili/debug/GZEwmY
 [bar]:http://codepen.io/bumbeishvili/debug/bpMMVR
-[scat]:http://codepen.io/bumbeishvili/pen/JXadpY
+[scat]:http://s.codepen.io/bumbeishvili/debug/JXadpY
 
 
 [jq]:https://jquery.com/
