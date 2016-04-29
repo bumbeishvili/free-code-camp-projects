@@ -6,6 +6,7 @@
 | ---                    | :---:                                       |
 | [bar chart][bar]       |  [D3][d3]                                   |
 | [scatterplot ][scat]   |  [D3][d3]                                   |
+| [Heatmap ][heat]       |  [D3][d3]                                   |
 
 
 
@@ -50,7 +51,7 @@
 [simon]:https://codepen.io/bumbeishvili/debug/GZEwmY
 [bar]:http://codepen.io/bumbeishvili/debug/bpMMVR
 [scat]:http://s.codepen.io/bumbeishvili/debug/JXadpY
-
+[heat]:http://s.codepen.io/bumbeishvili/debug/reqPav
 
 [jq]:https://jquery.com/
 [btstrp]:http://getbootstrap.com/
