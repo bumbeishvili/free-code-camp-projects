@@ -7,6 +7,7 @@
 | [bar chart][bar]       |  [D3][d3]                                   |
 | [scatterplot ][scat]   |  [D3][d3]                                   |
 | [Heatmap ][heat]       |  [D3][d3]                                   |
+| [ForceGraph ][force]   |  [D3][d3]                                   |
 
 
 
@@ -52,6 +53,7 @@
 [bar]:http://codepen.io/bumbeishvili/debug/bpMMVR
 [scat]:http://s.codepen.io/bumbeishvili/debug/JXadpY
 [heat]:http://s.codepen.io/bumbeishvili/debug/reqPav
+[force]:http://s.codepen.io/bumbeishvili/debug/gryQBa
 
 [jq]:https://jquery.com/
 [btstrp]:http://getbootstrap.com/
