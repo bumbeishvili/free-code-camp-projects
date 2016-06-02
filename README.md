@@ -8,7 +8,7 @@
 | [scatterplot ][scat]   |  [D3][d3]                                   |
 | [Heatmap ][heat]       |  [D3][d3]                                   |
 | [ForceGraph ][force]   |  [D3][d3]                                   |
-| [Meteor Map][meteors]  |  [D3][d3][topojson][topojson]               |
+| [Meteor Map][meteors]  |  [D3][d3] <br>[topojson][topojson]               |
 
 
 
