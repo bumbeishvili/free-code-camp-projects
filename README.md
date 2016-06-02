@@ -8,7 +8,7 @@
 | [scatterplot ][scat]   |  [D3][d3]                                   |
 | [Heatmap ][heat]       |  [D3][d3]                                   |
 | [ForceGraph ][force]   |  [D3][d3]                                   |
-| [Meteor Map][meteors]  |  [D3][d3]                                   |
+| [Meteor Map][meteors]  |  [D3][d3][topojson][topojson]               |
 
 
 
@@ -72,3 +72,4 @@
 [triang]:http://qrohlf.com/trianglify/
 [twichapi]:https://github.com/justintv/Twitch-API/blob/master/v3_resources/streams.md#get-streamschannel
 [d3]:https://d3js.org/
+[topojson]:https://github.com/mbostock/topojson
