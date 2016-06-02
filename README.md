@@ -1,5 +1,13 @@
 
 
+
+## React & Sass projects
+
+| Project name           | Used resources                              |
+| ---                    | :---:                                       |
+
+
+
 ## Data visualization Projects
 
 | Project name           | Used resources                              |
@@ -8,7 +16,7 @@
 | [scatterplot ][scat]   |  [D3][d3]                                   |
 | [Heatmap ][heat]       |  [D3][d3]                                   |
 | [ForceGraph ][force]   |  [D3][d3]                                   |
-| [Meteor Map][meteors]  |  [D3][d3] <br>[topojson][topojson]               |
+| [Meteor Map][meteors]  |  [D3][d3] <br>[topojson][topojson]          |
 
 
 
