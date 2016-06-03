@@ -3,8 +3,9 @@
 
 ## React & Sass projects
 
-| Project name           | Used resources                              |
-| ---                    | :---:                                       |
+| Project name                  | Used resources                       |
+| ---                           | :---:                                |
+| [markdown previewer][markdown]|[React][react]<br>[marked.js][markjs] |
 
 
 
@@ -64,6 +65,7 @@
 [heat]:http://s.codepen.io/bumbeishvili/debug/reqPav
 [force]:http://s.codepen.io/bumbeishvili/debug/gryQBa
 [meteors]:http://s.codepen.io/bumbeishvili/debug/vKYygY
+[markdown]:http://s.codepen.io/bumbeishvili/debug/jrPLyJ
 
 [jq]:https://jquery.com/
 [btstrp]:http://getbootstrap.com/
@@ -81,3 +83,5 @@
 [twichapi]:https://github.com/justintv/Twitch-API/blob/master/v3_resources/streams.md#get-streamschannel
 [d3]:https://d3js.org/
 [topojson]:https://github.com/mbostock/topojson
+[react]:https://facebook.github.io/react/
+[markjs]:https://github.com/chjj/marked
