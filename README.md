@@ -5,7 +5,7 @@
 
 | Project name                  | Used resources                       |
 | ---                           | :---:                                |
-| [markdown previewer][markdown]|[React][react]<br>[marked.js][markjs] |
+| [markdown previewer][markdown]|[React][react]<br>[marked.js][markjs]<br>[material ui][mater]<br>[pills.css][pills]<br>[sass][sass]|
 
 
 
@@ -85,3 +85,6 @@
 [topojson]:https://github.com/mbostock/topojson
 [react]:https://facebook.github.io/react/
 [markjs]:https://github.com/chjj/marked
+[mater]:http://www.material-ui.com/#/
+[pills]:https://github.com/rohitkrai03/pills
+[sass]:http://sass-lang.com/guide
