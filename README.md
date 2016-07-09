@@ -3,51 +3,51 @@
 
 ## React & Sass projects
 
-| Project name                  | Used resources                       |
-| ---                           | :---:                                |
-| [markdown previewer][markdown]|[React][react]<br>[marked.js][markjs]<br>[material ui][mater]<br>[pills.css][pills]<br>[sass][sass]|
-| [Camper LeaderBoard][board]   |[React][react]<br>[material ui][mater]<br>[pills.css][pills]<br>[sass][sass]|
-| [Recipe box][recipe]          |[React][react]<br>[materialize css][materialize]<br><br>[sass][sass]|
+| Project name                  | Used resources                       |Gist url|
+| ---                           | :---:                                |:---: |
+|[markdown previewer][markdown] |[React][react]<br>[marked.js][markjs]<br>[material ui][mater]<br>[pills.css][pills]<br>[sass][sass]|[gist markdown][gmarkdown]       |
+| [Camper LeaderBoard][board]   |[React][react]<br>[material ui][mater]<br>[pills.css][pills]<br>[sass][sass]|[gist board][gboard]  |
+| [Recipe box][recipe]          |[React][react]<br>[materialize css][materialize]<br>[sass][sass]| [gist recipe][grecipe] |
 
 
 
 ## Data visualization Projects
 
-| Project name           | Used resources                              |
-| ---                    | :---:                                       |
-| [bar chart][bar]       |  [D3][d3]                                   |
-| [scatterplot ][scat]   |  [D3][d3]                                   |
-| [Heatmap ][heat]       |  [D3][d3]                                   |
-| [ForceGraph ][force]   |  [D3][d3]                                   |
-| [Meteor Map][meteors]  |  [D3][d3] <br>[topojson][topojson]          |
+| Project name           | Used resources                              |   Gist url               |
+| ---                    | :---:                                       |:---:                     |
+| [bar chart][bar]       |  [D3][d3]                                   |[gist bar][gbar]          |
+| [scatterplot ][scat]   |  [D3][d3]                                   |[gist scat][gscat]        |
+| [Heatmap ][heat]       |  [D3][d3]                                   |[gist heat][gheat]        |
+| [ForceGraph ][force]   |  [D3][d3]                                   |[gist force][gforce]      |
+| [Meteor Map][meteors]  |  [D3][d3] <br>[topojson][topojson]          |[gist meteors][gmeteors]  |
 
 
 
 ## Advanced Frond End Development Projects
 
-| Project name           | Used resources                              |
-| ---                    | :---:                                       |
-| [Calculator][calc]     | [jquery][jq]  <br>[bootstrap][btstrp]       |
-| [Pomodoro Clock][pom]  | [bootstrap][btstrp] <br> Native js          |
-| [TicTacToe][ttt]       | [angular.js][ang] <br> [Semantic-ui][smui]  |
-| [Simon game][simon]    |  [JQuery][jq]<br> [Semantic-ui][smui]       |
+| Project name           | Used resources                              | Gist url                 |
+| ---                    | :---:                                       | :---:                    |
+| [Calculator][calc]     | [jquery][jq]  <br>[bootstrap][btstrp]       |[gist calc][gcalc]        |
+| [Pomodoro Clock][pom]  | [bootstrap][btstrp] <br> Native js          |[gist pom][gpom]          |
+| [TicTacToe][ttt]       | [angular.js][ang] <br> [Semantic-ui][smui]  |[gist ttt][gttt]          |
+| [Simon game][simon]    |  [JQuery][jq]<br> [Semantic-ui][smui]       |[gist simon][gsimon]      |
 
 
 ## Intermediate Frond End Development Projects 
 
-| Project name                     | Used resources                                                       |
-| ---                              | :---:                                                                |
-| [Random Quote Machine][rqm]      | [jquery][jq]  <br>[bootstrap][btstrp]<br> [tweet button][twbtn]      |
-| [Local Weather][lw]              | [bootstrap][btstrp]<br>[jquery][jq]<br>[openWeatherMap API][owm]<br>[weather icons][weico]<br>[sweet alert][swal]<br>[Material design lite][matdl]      |
-| [Wikipedia viewer][wv]           | [angular.js][ang] <br> [Semantic-ui][smui]<br>[particles.js][part]<br>[wikipedia api][wiki]  |
-| [TwichTV][twich]                 | [angular.js][ang] <br> [Semantic-ui][smui]<br>[trianglify][triang]<br>[Twichtv  api][twichapi]  |
+| Project name                     | Used resources                                                     | Gist url   |
+| ---                              | :---:                                                              | :---:      |
+| [Random Quote Machine][rqm]      | [jquery][jq]  <br>[bootstrap][btstrp]<br> [tweet button][twbtn]    |[gist rqm][grqm]  |
+| [Local Weather][lw]              | [bootstrap][btstrp]<br>[jquery][jq]<br>[openWeatherMap API][owm]<br>[weather icons][weico]<br>[sweet alert][swal]<br>[Material design lite][matdl]      | [gist lw][glw]  |
+| [Wikipedia viewer][wv]           | [angular.js][ang] <br> [Semantic-ui][smui]<br>[particles.js][part]<br>[wikipedia api][wiki]  |[gist wv][gwv]|
+| [TwichTV][twich]                 | [angular.js][ang] <br> [Semantic-ui][smui]<br>[trianglify][triang]<br>[Twichtv  api][twichapi]  |[gist twich][gtwich]
 
 
 ##  Basic Frond End Development Projects 
-| Project name            | Used resources                                              |
-| ---                     | :---:                                                       |
-| [Tribute page][trib]    | [jquery][jq]  <br>[bootstrap][btstrp]                       |
-| [About me][portf]       | [bootstrap][btstrp]<br>[jquery][jq]<br>[fullpage.js][fpage] |
+| Project name            | Used resources                                              | Gist url            |
+| ---                     | :---:                                                       | :---:               |
+| [Tribute page][trib]    | [jquery][jq]  <br>[bootstrap][btstrp]                       |[gist trib][gtrib]   |
+| [About me][portf]       | [bootstrap][btstrp]<br>[jquery][jq]<br>[fullpage.js][fpage] |[gist portf][gportf] |
 
 
 
@@ -93,3 +93,23 @@
 [pills]:https://github.com/rohitkrai03/pills
 [sass]:http://sass-lang.com/guide
 [materialize]:http://materializecss.com/
+
+
+[gcalc]:http://s.codepen.io/bumbeishvili/debug/wMyxXB
+[gpom]:http://s.codepen.io/bumbeishvili/debug/wMmYWr
+[gttt]:http://s.codepen.io/bumbeishvili/debug/wGaENr
+[grqm]:http://s.codepen.io/bumbeishvili/debug/obEyoB
+[glw]:http://s.codepen.io/bumbeishvili/debug/bEjwLb
+[gwv]:http://s.codepen.io/bumbeishvili/debug/obVoYo
+[gtwich]:http://s.codepen.io/bumbeishvili/debug/VeJbqY
+[gtrib]:http://s.codepen.io/bumbeishvili/debug/NxoQEa
+[gportf]:http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe
+[gsimon]:https://codepen.io/bumbeishvili/debug/GZEwmY
+[gbar]:http://codepen.io/bumbeishvili/debug/bpMMVR
+[gscat]:http://s.codepen.io/bumbeishvili/debug/JXadpY
+[gheat]:http://s.codepen.io/bumbeishvili/debug/reqPav
+[gforce]:http://s.codepen.io/bumbeishvili/debug/gryQBa
+[gmeteors]:http://s.codepen.io/bumbeishvili/debug/vKYygY
+[gmarkdown]:http://s.codepen.io/bumbeishvili/debug/jrPLyJ
+[gboard]:http://s.codepen.io/bumbeishvili/debug/WxGwKa
+[grecipe]:https://gist.github.com/bumbeishvili/907fe27d03faf900904c4947d2c4ff5c
