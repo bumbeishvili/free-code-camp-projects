@@ -8,6 +8,7 @@
 |[markdown previewer][markdown] |[React][react]<br>[marked.js][markjs]<br>[material ui][mater]<br>[pills.css][pills]<br>[sass][sass]|[gist markdown][gmarkdown]       |
 | [Camper LeaderBoard][board]   |[React][react]<br>[material ui][mater]<br>[pills.css][pills]<br>[sass][sass]|[gist board][gboard]  |
 | [Recipe box][recipe]          |[React][react]<br>[materialize css][materialize]<br>[sass][sass]| [gist recipe][grecipe] |
+|[game of life][lifegame]          |[React][react] | [gist lifegame][glifegame]|
 
 
 
@@ -70,6 +71,9 @@
 [markdown]:http://s.codepen.io/bumbeishvili/debug/jrPLyJ
 [board]:http://s.codepen.io/bumbeishvili/debug/WxGwKa
 [recipe]:http://s.codepen.io/bumbeishvili/debug/gMLwYE
+[lifegame]:http://s.codepen.io/bumbeishvili/debug/yJPyGx
+
+
 
 [jq]:https://jquery.com/
 [btstrp]:http://getbootstrap.com/
@@ -113,3 +117,4 @@
 [gmarkdown]:https://gist.github.com/bumbeishvili/df634e45e75a7d99e2dcd3a273da067f
 [gboard]:https://gist.github.com/bumbeishvili/0c14d50081196db585f23fededa1acdd
 [grecipe]:https://gist.github.com/bumbeishvili/907fe27d03faf900904c4947d2c4ff5c
+[glifegame]:https://gist.github.com/bumbeishvili/f85089be5563812ede359ee3fbe3d2ae
