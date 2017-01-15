@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>CodePen - Build Recipe Box</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  
+  
+  <link rel='stylesheet prefetch' href='https://cdn.rawgit.com/bumbeishvili/Assets/master/Projects/FreeCodeCamp/Pills/pills.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css'>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+      <style>
+      button span {
+  text-transform: none !important;
+}
+
+.page .page-header {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  background-color: #00bcd4;
+  height: 50px;
+  width: 100%;
+}
+.page .page-header .fcclogo {
+  width: 250px !important;
+  padding: 10px;
+  display: inline;
+}
+.page .recipes-list .action-buttons {
+  margin-bottom: -45px;
+  margin-top: 3px;
+  float: right;
+  clear: both;
+}
+
+    </style>
+
+  
+  
+  
+  
+</head>
+
+<body translate="no" >
+
+  <div id='content'></div>
+  
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src='https://fb.me/react-15.1.0.min.js'></script>
+<script src='https://fb.me/react-dom-15.1.0.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js'></script>
+
+    <script>
+    "use strict";
+
+function getItemsFromLocalStorage() {
+  var recipes = [{
+    id: 1,
+    title: "Veggie chilli",
+    ingredients: ["fat 14g", "saturates 2g", "sugars 30g", "fibre 21g", "protein 22g"]
+  }, {
+    id: 2,
+    title: "Cookies ",
+    ingredients: ["fat 36g", "saturates 15g", "carbs 75g", "sugars 58g", "fibre 3g", "protein 7g", "salt 1.7g"]
+  }, {
+    id: 3,
+    title: "Lemon Sorbet ",
+    ingredients: ["1 lemon's peel", "finely diced 1 cup water", "1/2 cup sugar", "  1/2 cup lemon juice", "1/2 cup carbonated mineral water"]
+  }];
+
+  var storageItems = localStorage.getItem("bumbeishvili_recipes");
+  if (!storageItems) {
+    storageItems = recipes;
+    saveToLocalStorage(JSON.stringify(storageItems));
+    storageItems = localStorage.getItem("bumbeishvili_recipes");
+  }
+
+  return JSON.parse(storageItems);
+}
+function saveToLocalStorage(storageItems) {
+  localStorage.setItem("bumbeishvili_recipes", storageItems);
+}
+var Page = React.createClass({
+  displayName: "Page",
+
+  getInitialState: function getInitialState() {
+    var items = getItemsFromLocalStorage();
+    return {
+      newRecipe: {
+        id: Date.now(),
+        title: "",
+        ingredients: ""
+      },
+      recipes: items
+    };
+  },
+
+  //, 
+  isValid: function isValid(recipe) {
+    return recipe.title.trim() && recipe.ingredients.trim();
+  },
+  addOrUpdateRecipe: function addOrUpdateRecipe() {
+    var recipe = this.state.newRecipe;
+    var recipes = this.state.recipes;
+    if (this.isValid(recipe)) {
+      var i = recipes.findIndex(function (r) {
+        return r.id == recipe.id;
+      });
+      // split recipe into recipes and filter blank ones
+      recipe.ingredients = recipe.ingredients.split(/[-,./_]/).filter(function (s) {
+        return s;
+      });
+
+      if (i != -1) {
+        recipes[i] = recipe;
+      } else {
+        recipes.push(recipe);
+      }
+      this.setState({
+        recipes: recipes
+      });
+      $('#recipesModal').closeModal();
+      saveToLocalStorage(JSON.stringify(recipes));
+    }
+  },
+  modalCompleted: function modalCompleted(component) {
+    this.setState({
+      newRecipe: {
+        id: Date.now(),
+        title: "",
+        ingredients: ""
+      }
+    });
+  },
+  editRecipe: function editRecipe(recipe) {
+    var newRecipe = {};
+    newRecipe.id = recipe.id;
+    newRecipe.title = recipe.title;
+    newRecipe.ingredients = recipe.ingredients.join(" , ");
+
+    this.setState({
+      newRecipe: newRecipe
+    });
+
+    var that = this;
+
+    $('#recipesModal').openModal({ complete: that.modalCompleted });
+  },
+
+  deleteRecipe: function deleteRecipe(id) {
+    var recipes = this.state.recipes;
+    recipes = recipes.filter(function (r) {
+      return r.id != id;
+    });
+    this.setState({
+      recipes: recipes
+    });
+    saveToLocalStorage(JSON.stringify(recipes));
+  },
+  handleModalChange: function handleModalChange(recipe) {
+    this.setState({
+      newRecipe: $.extend(this.state.newRecipe, recipe)
+    });
+  },
+  handleNewRecipe: function handleNewRecipe() {
+    var that = this;
+    $('#recipesModal').openModal({
+      complete: that.modalCompleted
+    });
+
+    this.setState({
+      oldRecipe: null,
+      newRecipe: {
+        id: Date.now(),
+        title: "",
+        ingredients: ""
+      }
+    });
+  },
+  render: function render() {
+    return React.createElement(
+      "div",
+      { className: "page" },
+      React.createElement(PageHeader, null),
+      React.createElement(RecipesList, { deleteRecipe: this.deleteRecipe,
+        recipesList: this.state.recipes,
+        editRecipe: this.editRecipe }),
+      React.createElement(AddRecipeSection, { handleNewRecipe: this.handleNewRecipe }),
+      React.createElement(Modal, { title: this.state.newRecipe.title,
+        ingredients: this.state.newRecipe.ingredients,
+        handleChange: this.handleModalChange,
+        addOrUpdateRecipe: this.addOrUpdateRecipe
+      })
+    );
+  }
+});
+
+var RecipesList = React.createClass({
+  displayName: "RecipesList",
+
+  handleDelete: function handleDelete(id) {
+    this.props.deleteRecipe(id);
+  },
+  handleEdit: function handleEdit(recipe) {
+    this.props.editRecipe(recipe);
+  },
+  render: function render() {
+    var _this = this;
+
+    var recipes = this.props.recipesList.map(function (recipe, i) {
+      return React.createElement(
+        "li",
+        { key: i },
+        React.createElement(
+          "div",
+          { className: "action-buttons" },
+          React.createElement(
+            "a",
+            { className: "btn purple blue lighten-3", onClick: _this.handleEdit.bind(_this, recipe) },
+            "Edit"
+          ),
+          React.createElement(
+            "a",
+            { className: "btn red accent-3", onClick: _this.handleDelete.bind(_this, recipe.id) },
+            "Delete"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "collapsible-header blue lighten-5" },
+          React.createElement(
+            "i",
+            { className: "large material-icons" },
+            "shopping_cart"
+          ),
+          recipe.title
+        ),
+        React.createElement(
+          "div",
+          { className: "collapsible-body" },
+          React.createElement(
+            "ul",
+            { className: "collection" },
+            recipe.ingredients.map(function (r, index) {
+              return React.createElement(
+                "li",
+                { className: "collection-item" },
+                React.createElement(
+                  "i",
+                  { className: "material-icons" },
+                  "done"
+                ),
+                r
+              );
+            })
+          )
+        )
+      );
+    });
+
+    return React.createElement(
+      "div",
+      { className: "recipes-list" },
+      React.createElement(
+        "ul",
+        { className: "collapsible", "data-collapsible": "accordion" },
+        recipes
+      )
+    );
+  }
+});
+
+var PageHeader = React.createClass({
+  displayName: "PageHeader",
+
+  render: function render() {
+    return React.createElement(
+      "div",
+      { className: "page-header" },
+      React.createElement(
+        "a",
+        { href: "https://www.freecodecamp.com" },
+        React.createElement("img", { className: "fcclogo", src: "https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg", alt: "FreeCodeCamp logo" })
+      )
+    );
+  }
+});
+
+var Modal = React.createClass({
+  displayName: "Modal",
+
+  handleChange: function handleChange() {
+    var title = this.refs.title.value;
+    var ingredients = this.refs.ingredients.value;
+    this.props.handleChange({
+      title: title,
+      ingredients: ingredients
+    });
+  },
+
+  render: function render() {
+    return React.createElement(
+      "div",
+      { id: "recipesModal", className: "modal" },
+      React.createElement(
+        "div",
+        { className: "modal-content" },
+        React.createElement(
+          "h4",
+          null,
+          "Recipes"
+        ),
+        React.createElement(
+          "div",
+          { className: "row" },
+          React.createElement(
+            "form",
+            { className: "col s12" },
+            React.createElement(
+              "div",
+              { className: "row" },
+              React.createElement(
+                "div",
+                { className: "input-field " },
+                React.createElement("input", { ref: "title", placeholder: "Recipe title", value: this.props.title, onChange: this.handleChange })
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "row" },
+              React.createElement(
+                "div",
+                { className: "input-field " },
+                React.createElement("input", { ref: "ingredients", placeholder: "Ingredients", value: this.props.ingredients, onChange: this.handleChange })
+              )
+            )
+          )
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "modal-footer" },
+        React.createElement(
+          "a",
+          { href: "#!", onClick: this.props.addOrUpdateRecipe, className: " modal-action  waves-effect waves-green btn-flat" },
+          "OK"
+        )
+      )
+    );
+  }
+});
+
+var AddRecipeSection = React.createClass({
+  displayName: "AddRecipeSection",
+
+  render: function render() {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "a",
+        { className: "waves-effect  cyan waves-light btn ", href: "#recipesModal", onClick: this.props.handleNewRecipe },
+        " add recipes"
+      )
+    );
+  }
+});
+
+ReactDOM.render(React.createElement(Page, null), document.getElementById('content'));
+
+function smallScreen() {
+  if (window.innerWidth <= 800 && window.innerHeight <= 600) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+$(document).ready(function () {
+
+  $('.collapsible').collapsible({
+    accordion: false
+  });
+});
+  </script>
+
+  
+  
+
+</body>
+</html>
+ 

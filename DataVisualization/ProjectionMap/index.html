@@ -1,17 +1,19 @@
-
-
 <!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+  />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+    color="#111" />
+  <title>CodePen - Map Data Across the Globe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>CodePen - Map Data Across the Globe</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-    
-        <style>
+
+  <style>
        path {
         stroke: white;
         stroke-width: 0.5px;
@@ -57,180 +59,180 @@ svg {
 }
     </style>
 
-    
-    
-    
-  </head>
 
-  <body translate="no" >
 
-    
-    
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js'></script>
 
-        <script>
-      d3.json("https://gist.githubusercontent.com/d3noob/5193723/raw/6e1434b2c2de24aedde9bcfe35f6a267bd2c04f5/world-110m2.json", function(error, topology) {
 
-  var params = {}
-  params.topologyJson = topojson.feature(topology, topology.objects.countries);
-  params.width = window.innerWidth;
-  params.height = window.innerHeight;
-  params.rotate = [0, 0];
-  params.scale = 200;
-  params.center = d3.geo.centroid(params.topologyJson);
-  params.offset = [params.width / 2, params.height / 2];
+</head>
 
-  params.projection = d3.geo.equirectangular()
-    .scale(params.scale)
-    .center(params.center)
-    .translate(params.offset)
-    .rotate([0, 0]);
+<body translate="no">
 
-  params.svg = d3.select("body")
-    .append("svg")
-    .attr("width", params.width)
-    .attr("height", params.height);
-  
-  params.svg.append('text').text('GLOBAL METEORITE STRIKES').attr('height',200).attr('x',10).attr('y',20)
 
-  params.path = d3.geo.path()
-    .projection(params.projection);
 
-  params.g = params.svg.append("g");
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js'></script>
 
-  recreatePathToFit(params);
-  d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/meteorite-strike-data.json", function(error, data) {
+  <script>
+      d3.json("https://gist.githubusercontent.com/d3noob/5193723/raw/6e1434b2c2de24aedde9bcfe35f6a267bd2c04f5/world-110m2.json", function (error, topology) {
 
-    var minMass = d3.min(data.features.map(function(d) {
-      return Number(d.properties.mass);
-    }));
+        var params = {}
+        params.topologyJson = topojson.feature(topology, topology.objects.countries);
+        params.width = window.innerWidth;
+        params.height = window.innerHeight;
+        params.rotate = [0, 0];
+        params.scale = 200;
+        params.center = d3.geo.centroid(params.topologyJson);
+        params.offset = [params.width / 2, params.height / 2];
 
-    var maxMass = d3.max(data.features.map(function(d) {
-      return Number(d.properties.mass);
-    }));
+        params.projection = d3.geo.equirectangular()
+          .scale(params.scale)
+          .center(params.center)
+          .translate(params.offset)
+          .rotate([0, 0]);
 
-    console.log(minMass)
-    var radiusScale = d3.scale.linear().domain([minMass, maxMass]).range([0.5, 40])
+        params.svg = d3.select("body")
+          .append("svg")
+          .attr("width", params.width)
+          .attr("height", params.height);
 
-    params.meteorites = params.g.selectAll("circle")
-      .data(data.features)
-      .enter()
-      .append("a")
-      .attr("xlink:href", function(d) {
-        return "https://www.google.com/search?q=meteorite+" + d.properties.name;
-      })
-    .attr('target','_blank')
-      .append("circle")
+        params.svg.append('text').text('GLOBAL METEORITE STRIKES').attr('height', 200).attr('x', 10).attr('y', 20)
 
-    .attr("cx", function(d) {
-        if (d.geometry)
-          return params.projection(d.geometry.coordinates)[0];
-      })
-      .attr("cy", function(d) {
-        if (d.geometry)
-          return params.projection(d.geometry.coordinates)[1];
-        return -1;
-      })
-      .attr("r", function(d) {
-        if (d.properties) {
-          return radiusScale(d.properties.mass)
+        params.path = d3.geo.path()
+          .projection(params.projection);
+
+        params.g = params.svg.append("g");
+
+        recreatePathToFit(params);
+        d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/meteorite-strike-data.json", function (error, data) {
+
+          var minMass = d3.min(data.features.map(function (d) {
+            return Number(d.properties.mass);
+          }));
+
+          var maxMass = d3.max(data.features.map(function (d) {
+            return Number(d.properties.mass);
+          }));
+
+          console.log(minMass)
+          var radiusScale = d3.scale.linear().domain([minMass, maxMass]).range([0.5, 40])
+
+          params.meteorites = params.g.selectAll("circle")
+            .data(data.features)
+            .enter()
+            .append("a")
+            .attr("xlink:href", function (d) {
+              return "https://www.google.com/search?q=meteorite+" + d.properties.name;
+            })
+            .attr('target', '_blank')
+            .append("circle")
+
+            .attr("cx", function (d) {
+              if (d.geometry)
+                return params.projection(d.geometry.coordinates)[0];
+            })
+            .attr("cy", function (d) {
+              if (d.geometry)
+                return params.projection(d.geometry.coordinates)[1];
+              return -1;
+            })
+            .attr("r", function (d) {
+              if (d.properties) {
+                return radiusScale(d.properties.mass)
+              }
+              return 1;
+            }).attr('class', 'meteors')
+            .style("fill", "red")
+            .on('mouseover', tooltipHoverHandler)
+            .on('mouseout', tooltipOutHandler)
+            .on("mousemove", function (d) {
+              tooltip.style('top', (d3.event.pageY - 70) + 'px')
+                .style('left', (d3.event.pageX - 100) + 'px');
+            });;
+        })
+
+          ;
+
+        params.g.selectAll("path")
+          .data(params.topologyJson.features)
+          .enter()
+          .append("path")
+          .attr("d", params.path)
+          .style('fill', getRandomColor)
+
+        // zoom and pan
+        var zoom = d3.behavior.zoom()
+          .on("zoom", function () {
+            params.g.attr("transform", "translate(" +
+              d3.event.translate.join(",") + ")scale(" + d3.event.scale + ")");
+            params.g.selectAll("circle")
+              .attr("d", params.path.projection(params.projection));
+            params.g.selectAll("path")
+              .attr("d", params.path.projection(params.projection));
+          });
+        params.svg.call(zoom)
+
+        function tooltipHtml(params) {
+          return 'This ' + (params.mass / 1000).toFixed(2) + ' kg meteor  named ' + params.name + ' fell on year ' + params.year;
         }
-        return 1;
-      }).attr('class', 'meteors')
-      .style("fill", "red")
-      .on('mouseover', tooltipHoverHandler)
-      .on('mouseout', tooltipOutHandler)
-      .on("mousemove", function(d) {
-        tooltip.style('top', (d3.event.pageY - 70) + 'px')
-          .style('left', (d3.event.pageX - 100) + 'px');
-      });;
-  })
 
-  ;
+        var tooltip = d3.select('body')
+          .append('div')
+          .attr('class', 'customTooltip');
 
-  params.g.selectAll("path")
-    .data(params.topologyJson.features)
-    .enter()
-    .append("path")
-    .attr("d", params.path)
-    .style('fill', getRandomColor)
+        tooltip.append('div')
+          .attr('class', 'content');
 
-  // zoom and pan
-  var zoom = d3.behavior.zoom()
-    .on("zoom", function() {
-      params.g.attr("transform", "translate(" +
-        d3.event.translate.join(",") + ")scale(" + d3.event.scale + ")");
-      params.g.selectAll("circle")
-        .attr("d", params.path.projection(params.projection));
-      params.g.selectAll("path")
-        .attr("d", params.path.projection(params.projection));
-    });
-  params.svg.call(zoom)
+        function tooltipHoverHandler(d) {
 
-  function tooltipHtml(params) {
-    return 'This ' + (params.mass / 1000).toFixed(2) + ' kg meteor  named ' + params.name + ' fell on year ' + params.year;
-  }
+          tooltip.select('.content').html(tooltipHtml({
+            mass: d.properties.mass,
+            name: d.properties.name,
+            year: d.properties.year.split('-')[0]
+          }));
 
-  var tooltip = d3.select('body')
-    .append('div')
-    .attr('class', 'customTooltip');
+          tooltip.transition()
+            .duration(200).style("opacity", "1").style('display', 'block');
 
-  tooltip.append('div')
-    .attr('class', 'content');
+          d3.select(this)
+            .style('stroke', '#b3daff')
+            .style('stroke-width', Number(d3.select(this).attr('r')) / 2);;
+        }
 
-  function tooltipHoverHandler(d) {
+        function tooltipOutHandler() {
+          tooltip.transition()
+            .duration(200)
+            .style('opacity', '0').style('display', 'none');
+          d3.select(this).style('stroke-width', 0);
+        }
 
-    tooltip.select('.content').html(tooltipHtml({
-      mass: d.properties.mass,
-      name: d.properties.name,
-      year: d.properties.year.split('-')[0]
-    }));
+      }); //test
 
-    tooltip.transition()
-      .duration(200).style("opacity", "1").style('display', 'block');
+      function recreatePathToFit(params) {
 
-    d3.select(this)
-      .style('stroke', '#b3daff')
-      .style('stroke-width', Number(d3.select(this).attr('r')) / 2);;
-  }
+        var bounds = params.path.bounds(params.topologyJson);
+        var hscale = params.scale * params.width / (bounds[1][0] - bounds[0][0]);
+        var vscale = params.scale * params.height / (bounds[1][1] - bounds[0][1]);
+        params.scale = (hscale < vscale) ? hscale : vscale;
+        var offset = [params.width - (bounds[0][0] + bounds[1][0]) / 2,
+        params.height - (bounds[0][1] + bounds[1][1]) / 2
+        ];
 
-  function tooltipOutHandler() {
-    tooltip.transition()
-      .duration(200)
-      .style('opacity', '0').style('display', 'none');
-    d3.select(this).style('stroke-width', 0);
-  }
+        // new projection
+        params.projection = d3.geo.equirectangular()
+          .scale(params.scale).translate(offset).center(params.center)
+        params.path = params.path.projection(params.projection)
 
-}); //test
+      }
 
-function recreatePathToFit(params) {
-
-  var bounds = params.path.bounds(params.topologyJson);
-  var hscale = params.scale * params.width / (bounds[1][0] - bounds[0][0]);
-  var vscale = params.scale * params.height / (bounds[1][1] - bounds[0][1]);
-  params.scale = (hscale < vscale) ? hscale : vscale;
-  var offset = [params.width - (bounds[0][0] + bounds[1][0]) / 2,
-    params.height - (bounds[0][1] + bounds[1][1]) / 2
-  ];
-
-  // new projection
-  params.projection = d3.geo.equirectangular()
-    .scale(params.scale).translate(offset).center(params.center)
-  params.path = params.path.projection(params.projection)
-
-}
-
-function getRandomColor() {
-  return '#ff9933';
-  // it's really random, I selected  it with  clicking random position on color wheel (eyes were close  )
-}
-      //# sourceURL=pen.js
+      function getRandomColor() {
+        return '#ff9933';
+        // it's really random, I selected  it with  clicking random position on color wheel (eyes were close  )
+      }
     </script>
 
-    
-    
-    
-  </body>
+
+
+
+</body>
+
 </html>
- 

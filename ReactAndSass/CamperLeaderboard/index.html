@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>CodePen - Camper LeaderBoard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  
+  
+  
+      <style>
+      .user-profile.camper-name {
+  margin-top: 30px !important;
+}
+
+.avatar-wrapper {
+  display: inline;
+}
+
+.camper-name-wrapper {
+  display: inline;
+}
+
+.page-header {
+  background-color: #00bcd4;
+  height: 50px;
+  width: 100%;
+}
+
+.fcclogo {
+  width: 250px !important;
+  padding: 10px;
+  display: inline;
+}
+
+.username {
+  padding-left: 0px !important;
+}
+
+.configuration {
+  padding-left: 20px;
+  padding-top: 20px;
+}
+.configuration div {
+  padding-bottom: 5px;
+}
+
+    </style>
+
+  
+  
+  
+  
+</head>
+
+<body translate="no" >
+
+  <div id='content'></div>
+  
+  <script src='https://cdn.rawgit.com/bumbeishvili/Assets/master/Projects/FreeCodeCamp/ReactMaterialUI/bundle.js'></script>
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+    <script>
+    'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _materialUi = require('material-ui');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var allTimeLink = "https://fcctop100.herokuapp.com/api/fccusers/top/alltime";
+var recentLink = "https://fcctop100.herokuapp.com/api/fccusers/top/recent";
+
+var Page = _react2.default.createClass({
+  displayName: 'Page',
+
+  getInitialState: function getInitialState() {
+    return {
+      showRecent: false,
+      recentPoints: [],
+      allPoints: []
+    };
+  },
+  handleChange: function handleChange(e, v) {
+    if (v == "recent") {
+      this.setState({ showRecent: true });
+    } else {
+      this.setState({ showRecent: false });
+    }
+  },
+
+  componentDidMount: function componentDidMount() {
+
+    this.serverRequest = $.get(allTimeLink, function (result) {
+      var allPoints = result;
+      this.setState({
+        allPoints: allPoints
+      });
+    }.bind(this));
+
+    this.serverRequest = $.get(recentLink, function (result) {
+      var recentPoints = result;
+      this.setState({
+        recentPoints: recentPoints
+      });
+    }.bind(this));
+  },
+  render: function render() {
+    var pointData = [];
+    if (this.state.showRecent) {
+      pointData = this.state.recentPoints;
+    } else {
+      pointData = this.state.allPoints;
+    }
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(PageHeader, null),
+      _react2.default.createElement(Configuration, { handleChange: this.handleChange }),
+      _react2.default.createElement(CamperBoard, { pointData: pointData })
+    );
+  }
+});
+
+var PageHeader = _react2.default.createClass({
+  displayName: 'PageHeader',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'page-header' },
+      _react2.default.createElement(
+        'a',
+        { href: 'https://www.freecodecamp.com' },
+        _react2.default.createElement('img', { className: 'fcclogo', src: 'https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg', alt: 'FreeCodeCamp logo' })
+      )
+    );
+  }
+});
+
+var Configuration = _react2.default.createClass({
+  displayName: 'Configuration',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        _materialUi.RadioButtonGroup,
+        { name: 'configuration',
+          className: 'configuration',
+          defaultSelected: 'allTime',
+          onChange: this.props.handleChange },
+        _react2.default.createElement(_materialUi.RadioButton, {
+          value: 'allTime',
+          label: 'Show All Time Leaders'
+        }),
+        _react2.default.createElement(_materialUi.RadioButton, {
+          value: 'recent',
+          label: 'Show Recent Leaders'
+        })
+      )
+    );
+  }
+});
+
+var CamperBoard = _react2.default.createClass({
+  displayName: 'CamperBoard',
+
+  getInitialState: function getInitialState() {
+    return {
+      showCheckboxes: false,
+      enableSelectAll: false,
+      selectable: false
+    };
+  },
+
+  render: function render() {
+    var isSmallScreen = smallScreen();
+    var nameColumnHeader;
+    var colspan = 4;
+    if (!isSmallScreen) {
+      nameColumnHeader = _react2.default.createElement(
+        _materialUi.TableHeaderColumn,
+        null,
+        'Camper Name'
+      );
+      colspan = 5;
+    }
+    return _react2.default.createElement(
+      _materialUi.Table,
+      { selectable: this.state.selectable },
+      _react2.default.createElement(
+        _materialUi.TableHeader,
+        { displaySelectAll: this.state.showCheckboxes, adjustForCheckbox: this.state.showCheckboxes },
+        _react2.default.createElement(
+          _materialUi.TableRow,
+          null,
+          _react2.default.createElement(
+            _materialUi.TableHeaderColumn,
+            { colSpan: colspan, style: { textAlign: 'center' } },
+            'Camper Leaderboard'
+          )
+        ),
+        _react2.default.createElement(
+          _materialUi.TableRow,
+          null,
+          _react2.default.createElement(
+            _materialUi.TableHeaderColumn,
+            null,
+            '#'
+          ),
+          _react2.default.createElement(
+            _materialUi.TableHeaderColumn,
+            null,
+            'All time '
+          ),
+          _react2.default.createElement(
+            _materialUi.TableHeaderColumn,
+            null,
+            'Recent '
+          ),
+          _react2.default.createElement(
+            _materialUi.TableHeaderColumn,
+            null,
+            'Avatar'
+          ),
+          nameColumnHeader
+        )
+      ),
+      _react2.default.createElement(
+        _materialUi.TableBody,
+        { displayRowCheckbox: this.state.showCheckboxes },
+        this.props.pointData.map(function (user, index) {
+          var nameRowColumn;
+          if (!isSmallScreen) {
+            nameRowColumn = _react2.default.createElement(
+              _materialUi.TableRowColumn,
+              { className: 'username' },
+              _react2.default.createElement(_materialUi.RaisedButton, {
+                href: "http://www.freeCodeCamp.com/" + user.username,
+                secondary: true,
+                linkButton: true,
+                label: user.username })
+            );
+          }
+
+          return _react2.default.createElement(
+            _materialUi.TableRow,
+            { key: index + 1 },
+            _react2.default.createElement(
+              _materialUi.TableRowColumn,
+              null,
+              index + 1
+            ),
+            _react2.default.createElement(
+              _materialUi.TableRowColumn,
+              null,
+              user.alltime
+            ),
+            _react2.default.createElement(
+              _materialUi.TableRowColumn,
+              { className: 'recent-points' },
+              user.recent
+            ),
+            _react2.default.createElement(
+              _materialUi.TableRowColumn,
+              null,
+              _react2.default.createElement(
+                'a',
+                { href: "http://www.freeCodeCamp.com/" + user.username },
+                _react2.default.createElement(_materialUi.Avatar, { src: user.img }),
+                ' '
+              )
+            ),
+            nameRowColumn
+          );
+        })
+      )
+    );
+  }
+});
+
+_reactDom2.default.render(_react2.default.createElement(Page, null), document.getElementById('content'));
+
+function smallScreen() {
+  if (window.innerWidth <= 800 && window.innerHeight <= 600) {
+    return true;
+  } else {
+    return false;
+  }
+}
+  </script>
+
+  
+  
+
+</body>
+</html>
+ 

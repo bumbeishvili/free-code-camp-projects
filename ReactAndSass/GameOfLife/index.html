@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+    />
+    <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+        color="#111" />
+    <title>CodePen - Build the Game of Life</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+
+    <meta property="og:title" content="Game Of Life" />
+    <meta property="og:description" content="very interesting simulation" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/bumbeishvili/Assets/master/Sharing/Projects/GameOfLifeWider.png"
+    />
+
+
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css'>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+    <style>
+      .header {
+  text-align: center;
+  color: #00695c;
+}
+.header h1 {
+  margin-bottom: 0px;
+}
+
+.actions {
+  text-align: center;
+}
+
+.body .svg-wrapper {
+  display: table;
+  margin: 20px auto;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  line-height: 0;
+}
+.body .svg-wrapper svg {
+  cursor: pointer;
+}
+.body .svg-wrapper svg rect {
+  stroke-width: 0.2;
+}
+
+.fb-share-button {
+  margin: 30px;
+}
+
+    </style>
+
+
+
+
+
+</head>
+
+<body translate="no">
+
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7&appId=813508885415765";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));</script>
+
+
+
+<div id="content"></div>
+
+<div class="fb-share-button" data-href="http://s.codepen.io/bumbeishvili/debug/yJPyGx?editors=0110" data-layout="button_count"
+    data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fs.codepen.io%2Fbumbeishvili%2Fdebug%2FyJPyGx%3Feditors%3D0110&amp;src=sdkpreparse">Share</a></div>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script src='https://fb.me/react-15.1.0.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js'></script>
+
+<script>
+        "use strict";
+
+        var gameStatus = {
+            started: "started",
+            cleared: "cleared",
+            paused: "paused"
+        };
+
+        var Page = React.createClass({
+            displayName: "Page",
+
+            componentDidMount: function componentDidMount() {
+                this.startSimulating();
+            },
+            getInitialState: function getInitialState() {
+                return {
+                    status: gameStatus.started,
+                    lifeArea: this.getLifeArea(),
+                    aliveCellsCount: 0,
+                    generations: 0
+                };
+            },
+            render: function render() {
+
+                return React.createElement(
+                    "div",
+                    null,
+                    React.createElement(Header, { generations: this.state.generations, aliveCellsCount: this.state.aliveCellsCount }),
+                    React.createElement(Actions, {
+                        clearFunc: this.clear,
+                        status: this.state.status,
+                        actionButtonClick: this.actionButtonClick
+                    }),
+                    React.createElement(Body, {
+                        onSquareClick: this.onSquareClick,
+                        lifeArea: this.state.lifeArea
+                    })
+                );
+            },
+            actionButtonClick: function actionButtonClick() {
+                var newStatus = this.state.status,
+                    oldStatus = this.state.status;
+                if (oldStatus == gameStatus.started) {
+                    newStatus = gameStatus.paused;
+                    clearInterval(this.interval);
+                }
+
+                if (oldStatus == gameStatus.paused || oldStatus == gameStatus.cleared) {
+                    newStatus = gameStatus.started;
+                    this.startSimulating();
+                }
+
+                this.setState({
+                    status: newStatus
+                });
+            },
+            clear: function clear() {
+                clearInterval(this.interval);
+                this.setState({
+                    lifeArea: this.getLifeArea(true),
+                    status: gameStatus.cleared,
+                    generations: 0
+                });
+            },
+            onSquareClick: function onSquareClick(i, j) {
+                var arr = this.state.lifeArea;
+                arr[i][j].currentValue = true;
+                this.setState({
+                    lifeArea: arr
+                });
+            },
+            getLifeArea: function getLifeArea(clearFlag) {
+                var balance = clearFlag ? 0 : 2;
+                var verticalCellsCount = 45;
+                var horizontalCellsCount = 100;
+                if (isMobile()) {
+                    verticalCellsCount = 30;
+                    horizontalCellsCount = 30;
+                }
+                var arr = [];
+
+                for (var i = 0; i < verticalCellsCount; i++) {
+                    var newArr = [];
+                    for (var j = 0; j < horizontalCellsCount; j++) {
+                        newArr.push({
+                            currentValue: !!(Math.floor(Math.random() * 10 + 1) % balance)
+                        });
+                    }
+                    arr.push(newArr);
+                }
+                return arr;
+            },
+
+            startSimulating: function startSimulating() {
+                var _this = this;
+
+                var generations = this.state.generations;
+                this.interval = setInterval(function () {
+                    _this.simulateStep(generations++);
+                }, 100);
+            },
+            simulateStep: function simulateStep(generations) {
+                var _this2 = this;
+
+                var lifeArea = this.state.lifeArea;
+
+                lifeArea.forEach(function (h, i) {
+                    h.forEach(function (v, j) {
+                        var aliveNeighboursCount = _this2.getLiveNeightboursCount(lifeArea, i, j);
+
+                        if (aliveNeighboursCount < 2) {
+                            v.newValue = false;
+                        }
+
+                        if (aliveNeighboursCount == 3) {
+                            v.newValue = true;
+                        }
+
+                        if (aliveNeighboursCount > 3) {
+                            v.newValue = false;
+                        }
+                    });
+                });
+
+                var aliveCellsCount = 0;
+                lifeArea.forEach(function (h, i) {
+                    h.forEach(function (v, j) {
+                        if (v.newValue == false) {
+                            v.currentValue = false;
+                        }
+                        if (v.newValue == true) {
+                            v.currentValue = true;
+                        }
+                        v.newValue = null;
+
+                        if (v.currentValue) {
+                            aliveCellsCount++;
+                        }
+                    });
+                });
+
+                this.setState({
+                    lifeArea: lifeArea,
+                    generations: generations,
+                    aliveCellsCount: aliveCellsCount
+                });
+            },
+
+            getLiveNeightboursCount: function getLiveNeightboursCount(lifeArea, i, j) {
+                var neighbours = [{
+                    i: i - 1,
+                    j: j - 1
+                }, {
+                    i: i - 1,
+                    j: j
+                }, {
+                    i: i - 1,
+                    j: j + 1
+                }, {
+                    i: i,
+                    j: j - 1
+                }, {
+                    i: i,
+                    j: j + 1
+                }, {
+                    i: i + 1,
+                    j: j - 1
+                }, {
+                    i: i + 1,
+                    j: j
+                }, {
+                    i: i + 1,
+                    j: j + 1
+                }];
+                var vCellsCount = lifeArea.length;
+                var hCellsCount = lifeArea[0].length;
+
+                neighbours.forEach(function (n) {
+                    if (n.j < 0) n.j = hCellsCount - 1;
+                    if (n.i < 0) n.i = vCellsCount - 1;
+
+                    n.j = n.j % hCellsCount;
+                    n.i = n.i % vCellsCount;
+                });
+
+                var counter = 0;
+
+                neighbours.forEach(function (n) {
+                    if (lifeArea[n.i][n.j].currentValue) {
+                        counter++;
+                    }
+                });
+
+                return counter;
+            }
+
+        });
+
+        var Header = React.createClass({
+            displayName: "Header",
+
+            render: function render() {
+                return React.createElement(
+                    "div",
+                    { className: "header" },
+                    React.createElement(
+                        "h1",
+                        null,
+                        "Game Of Life"
+                    ),
+                    React.createElement(
+                        "h5",
+                        null,
+                        "Generations - ",
+                        this.props.generations,
+                        "       Alive  - ",
+                        this.props.aliveCellsCount
+                    )
+                );
+            }
+        });
+
+        var Actions = React.createClass({
+            displayName: "Actions",
+
+            render: function render() {
+                var firstButtonIcon;
+                var firstButtonText;
+                console.log(this.props.status);
+                //play_arrow
+                if (this.props.status == gameStatus.started) {
+                    firstButtonText = "pause";
+                    firstButtonIcon = "pause";
+                }
+
+                if (this.props.status == gameStatus.paused) {
+                    firstButtonText = "resume";
+                    firstButtonIcon = "play_arrow";
+                }
+
+                if (this.props.status == gameStatus.cleared) {
+                    firstButtonText = "start";
+                    firstButtonIcon = "play_arrow";
+                }
+
+                return React.createElement(
+                    "div",
+                    { className: "actions" },
+                    React.createElement(
+                        "a",
+                        { onClick: this.actionButtonClick, className: "teal darken-2 waves-effect waves-light btn" },
+                        React.createElement(
+                            "i",
+                            { className: "material-icons left " },
+                            firstButtonIcon
+                        ),
+                        firstButtonText
+                    ),
+                    React.createElement(
+                        "a",
+                        { onClick: this.clearFunc, className: "waves-effect waves-light teal darken-2 btn" },
+                        React.createElement(
+                            "i",
+                            { className: "material-icons left" },
+                            "clear_all"
+                        ),
+                        "Clear"
+                    )
+                );
+            },
+            clearFunc: function clearFunc() {
+                this.props.clearFunc();
+            },
+
+            actionButtonClick: function actionButtonClick() {
+                this.props.actionButtonClick();
+            }
+        });
+
+        var Body = React.createClass({
+            displayName: "Body",
+
+            render: function render() {
+                var _this3 = this;
+
+                var squareWidth = 13;
+                if (isMobile()) {
+                    squareWidth = 10;
+                }
+                return React.createElement(
+                    "div",
+                    { className: "body" },
+                    React.createElement(
+                        "div",
+                        { className: "svg-wrapper" },
+                        React.createElement(
+                            "svg",
+                            {
+                                width: squareWidth * this.props.lifeArea[0].length,
+                                height: squareWidth * this.props.lifeArea.length
+                            },
+                            this.props.lifeArea.map(function (h, i) {
+                                return h.map(function (v, j) {
+                                    return React.createElement("rect", {
+                                        onClick: _this3.onSquareClick.bind(null, { i: i, j: j }),
+                                        width: squareWidth,
+                                        height: squareWidth,
+                                        x: j * squareWidth,
+                                        y: i * squareWidth,
+                                        fill: v.currentValue ? "#00796b" : "white",
+                                        stroke: "black"
+                                    });
+                                });
+                            })
+                        )
+                    )
+                );
+            },
+            onSquareClick: function onSquareClick(param) {
+                this.props.onSquareClick(param.i, param.j);
+            }
+        });
+
+        ReactDOM.render(React.createElement(Page, null), document.getElementById('content'));
+
+        function isMobile() {
+            return window.innerWidth < 400;
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>

@@ -1,18 +1,19 @@
-
-
 <!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
-    <meta name="google" value="notranslate">
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+  />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+    color="#111" />
+  <title>CodePen - Visualize Data with a Scatterplot Graph</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 
-    <title>CodePen - Visualize Data with a Scatterplot Graph</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    
-    
-        <style>
+
+  <style>
       .container{
   border-style: outset;
   display:inline-block;
@@ -70,215 +71,215 @@ div.tooltap {
 }
     </style>
 
-    
-    
-    
-  </head>
 
-  <body>
 
-    <div class="container">
-   <h1> Bicycle  Tour (13.8 km)  and Doping </h1>
-  <div class="scatterplot-wrapper"></div>
-</div>
 
-<div class='tooltap'>
-  <b ><span class='name'>Marco Pantani<span></b> <br>
-  Place : <span class="place">1</span> </br>
-Time : <span class="time">36:40</span>  </br>
-Year : <span class="year">2007</span> </br> <br>
-<div class='story'> Alleged drug use during 1995 due to high hematocrit levels</div>
 
-</div>
-    
-    <script src='//cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js'></script>
+</head>
 
-        <script>
+<body translate="no">
+
+  <div class="container">
+    <h1> Bicycle Tour (13.8 km) and Doping </h1>
+    <div class="scatterplot-wrapper"></div>
+  </div>
+
+  <div class='tooltap'>
+    <b><span class='name'>Marco Pantani<span></b> <br> Place : <span class="place">1</span> </br>
+    Time : <span class="time">36:40</span> </br>
+    Year : <span class="year">2007</span> </br> <br>
+    <div class='story'> Alleged drug use during 1995 due to high hematocrit levels</div>
+
+  </div>
+
+  <script src='//cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js'></script>
+
+  <script>
       function drawScatterplot(data) {
-  console.log(data);
+        console.log(data);
 
-  var config = {
-    svgHeight: 500,
-    svgWidth: 0
-  }
+        var config = {
+          svgHeight: 500,
+          svgWidth: 0
+        }
 
-  configureByScreen(config);
+        configureByScreen(config);
 
-  var isMobile = Number(config.svgWidth) < 400;
+        var isMobile = Number(config.svgWidth) < 400;
 
-  var svg = d3.select('.scatterplot-wrapper')
-    .append('svg')
-    .attr('width', config.svgWidth)
-    .attr('height', config.svgHeight);
+        var svg = d3.select('.scatterplot-wrapper')
+          .append('svg')
+          .attr('width', config.svgWidth)
+          .attr('height', config.svgHeight);
 
-  var pointsWrapper = svg.append('g').attr('class', 'pointsWrapper');
+        var pointsWrapper = svg.append('g').attr('class', 'pointsWrapper');
 
-  var padding = 100;
-  config.chartHeight = config.svgHeight - padding;
-  config.chartWidth = config.svgWidth - padding;
+        var padding = 100;
+        config.chartHeight = config.svgHeight - padding;
+        config.chartWidth = config.svgWidth - padding;
 
-  var yScale = d3.scale.linear()
-    .domain([0, data.length])
-    .range([0, config.chartHeight]);
+        var yScale = d3.scale.linear()
+          .domain([0, data.length])
+          .range([0, config.chartHeight]);
 
-  var xScale = d3.scale.linear()
-    .domain([10 + d3.max(data, function(d) {
-      return d.Seconds;
-    }), d3.min(data, function(d) {
-      return d.Seconds;
-    }) - 10])
-    .range([0, config.chartWidth]);
+        var xScale = d3.scale.linear()
+          .domain([10 + d3.max(data, function (d) {
+            return d.Seconds;
+          }), d3.min(data, function (d) {
+            return d.Seconds;
+          }) - 10])
+          .range([0, config.chartWidth]);
 
-  var circles = pointsWrapper.selectAll('.circle')
-    .data(data)
-    .enter()
-    .append('circle')
-    .attr('class', 'circle')
-    .attr('fill', function(d) {
-      return d.Doping ? 'red' : 'green';
-    })
-    .attr('cx', function(d) {
-      return xScale(d.Seconds) + padding / 2
-    })
-    .attr('cy', function(d, i) {
-      return yScale(i) + padding / 2;
-    })
-    .attr('r', 7)
-    .attr('stroke', 'none')
+        var circles = pointsWrapper.selectAll('.circle')
+          .data(data)
+          .enter()
+          .append('circle')
+          .attr('class', 'circle')
+          .attr('fill', function (d) {
+            return d.Doping ? 'red' : 'green';
+          })
+          .attr('cx', function (d) {
+            return xScale(d.Seconds) + padding / 2
+          })
+          .attr('cy', function (d, i) {
+            return yScale(i) + padding / 2;
+          })
+          .attr('r', 7)
+          .attr('stroke', 'none')
 
-  //####################################### AXES  ##########################################
+        //####################################### AXES  ##########################################
 
-  var yAxis = d3.svg.axis()
-    .scale(yScale)
-    .tickFormat(function(d) {
-      if (d == 0) return 1;
-      return d;
-    })
-    .orient('left');
+        var yAxis = d3.svg.axis()
+          .scale(yScale)
+          .tickFormat(function (d) {
+            if (d == 0) return 1;
+            return d;
+          })
+          .orient('left');
 
-  svg.append('g')
-    .attr('stroke', 'black')
-    .attr('class', 'yAxis')
-    .attr("transform", 'translate(' + padding / 3 + ',' + padding * 2 / 5 + ')')
-    .call(yAxis)
+        svg.append('g')
+          .attr('stroke', 'black')
+          .attr('class', 'yAxis')
+          .attr("transform", 'translate(' + padding / 3 + ',' + padding * 2 / 5 + ')')
+          .call(yAxis)
 
-  d3.select('.yAxis')
-    .append('text')
-    .text('Time (minutes:seconds)')
-    .attr('stroke-width', '0.5')
-    .attr('font-size', '16')
-    .attr('x', config.svgWidth * 1 / 3)
-    .attr('y', config.svgHeight - 100);
+        d3.select('.yAxis')
+          .append('text')
+          .text('Time (minutes:seconds)')
+          .attr('stroke-width', '0.5')
+          .attr('font-size', '16')
+          .attr('x', config.svgWidth * 1 / 3)
+          .attr('y', config.svgHeight - 100);
 
-  d3.select('.yAxis')
-    .append('text')
-    .text('Doping')
-    .attr('stroke-width', '0.5')
-    .attr('font-size', '16')
-    .attr('x', config.svgWidth * 1 / 2)
-    .attr('y', config.svgHeight - 200);
+        d3.select('.yAxis')
+          .append('text')
+          .text('Doping')
+          .attr('stroke-width', '0.5')
+          .attr('font-size', '16')
+          .attr('x', config.svgWidth * 1 / 2)
+          .attr('y', config.svgHeight - 200);
 
-  d3.select('.yAxis')
-    .append('text')
-    .text('No Doping')
-    .attr('stroke-width', '0.5')
-    .attr('font-size', '16')
-    .attr('x', config.svgWidth * 1 / 2)
-    .attr('y', config.svgHeight - 180);
+        d3.select('.yAxis')
+          .append('text')
+          .text('No Doping')
+          .attr('stroke-width', '0.5')
+          .attr('font-size', '16')
+          .attr('x', config.svgWidth * 1 / 2)
+          .attr('y', config.svgHeight - 180);
 
-  d3.select('.yAxis')
-    .append('text')
-    .text('Ranking Place')
-    .attr('stroke-width', '0.5')
-    .attr('font-size', '16')
-    .attr('transform', 'rotate(90)')
-    .attr('x', padding / 3)
-    .attr('y', -padding / 8);
+        d3.select('.yAxis')
+          .append('text')
+          .text('Ranking Place')
+          .attr('stroke-width', '0.5')
+          .attr('font-size', '16')
+          .attr('transform', 'rotate(90)')
+          .attr('x', padding / 3)
+          .attr('y', -padding / 8);
 
-  var xAxis = d3.svg.axis()
-    .scale(xScale)
-    .ticks(isMobile ? 5 : 10)
-    .tickFormat(function(sec) {
-      return Math.floor(sec / 60) + ":" + (sec % 60 > 9 ? '' + sec % 60 : '0' + sec % 60);
-    })
-    .orient('bottom');
+        var xAxis = d3.svg.axis()
+          .scale(xScale)
+          .ticks(isMobile ? 5 : 10)
+          .tickFormat(function (sec) {
+            return Math.floor(sec / 60) + ":" + (sec % 60 > 9 ? '' + sec % 60 : '0' + sec % 60);
+          })
+          .orient('bottom');
 
-  svg.append('g')
-    .attr('stroke', 'black')
-    .attr('class', 'xAxis')
-    .attr("transform", 'translate(' + padding / 2 + ',' + (config.svgHeight - padding / 2) + ')')
-    .call(xAxis)
+        svg.append('g')
+          .attr('stroke', 'black')
+          .attr('class', 'xAxis')
+          .attr("transform", 'translate(' + padding / 2 + ',' + (config.svgHeight - padding / 2) + ')')
+          .call(xAxis)
 
-  //################################### LEGEND ##############################
-  d3.select('.yAxis')
-    .append('circle')
-    .attr('cx', config.svgWidth * 1 / 2 - 10)
-    .attr('cy', config.svgHeight - 206)
-    .attr('r', 7)
-    .attr('fill', 'red');
+        //################################### LEGEND ##############################
+        d3.select('.yAxis')
+          .append('circle')
+          .attr('cx', config.svgWidth * 1 / 2 - 10)
+          .attr('cy', config.svgHeight - 206)
+          .attr('r', 7)
+          .attr('fill', 'red');
 
-  d3.select('.yAxis')
-    .append('circle')
-    .attr('cx', config.svgWidth * 1 / 2 - 10)
-    .attr('cy', config.svgHeight - 186)
-    .attr('r', 7)
-    .attr('fill', 'green');
+        d3.select('.yAxis')
+          .append('circle')
+          .attr('cx', config.svgWidth * 1 / 2 - 10)
+          .attr('cy', config.svgHeight - 186)
+          .attr('r', 7)
+          .attr('fill', 'green');
 
-  //################################ tooltip #######################################
-  var div = d3.select(".tooltap")
+        //################################ tooltip #######################################
+        var div = d3.select(".tooltap")
 
-  circles.on("mouseover", function(d) {
-      var circle = d3.select(this);
-      circle.attr('stroke', 'yellow ');
-      circle.attr('stroke-width', '3 ');
-      div.transition()
-        .duration(200)
-        .style("opacity", .9);
+        circles.on("mouseover", function (d) {
+          var circle = d3.select(this);
+          circle.attr('stroke', 'yellow ');
+          circle.attr('stroke-width', '3 ');
+          circle.attr('cursor', 'pointer');
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
 
-      /*
-     <b class='name'>Marco Pantani</b>
-  Place : <span class="place">1</span> </br>
-Time : <span class="time">36:40</span>  </br>
-Year : <span class="year">2007</span> </br> <br>
-<div class='story'> Alleged drug use during 1995 due to high hematocrit levels</div>
-    */
-      div.select('.name').html(d.Name);
-      div.select('.place').html(d.Place);
-      div.select('.time').html(d.Time);
-      div.select('.year').html(d.Year);
-      div.select('.story').html(d.Doping);
+          /*
+         <b class='name'>Marco Pantani</b>
+      Place : <span class="place">1</span> </br>
+    Time : <span class="time">36:40</span>  </br>
+    Year : <span class="year">2007</span> </br> <br>
+    <div class='story'> Alleged drug use during 1995 due to high hematocrit levels</div>
+        */
+          div.select('.name').html(d.Name);
+          div.select('.place').html(d.Place);
+          div.select('.time').html(d.Time);
+          div.select('.year').html(d.Year);
+          div.select('.story').html(d.Doping);
 
-      div.style("left", (d3.event.pageX + 10) + "px")
-        .style("top", (d3.event.pageY - 40) + "px");
+          div.style("left", (d3.event.pageX + 10) + "px")
+            .style("top", (d3.event.pageY - 40) + "px");
 
-    })
-    .on("mouseout", function(d) {
-      var circle = d3.select(this);
-      circle.attr('stroke', 'none')
-      div.transition()
-        .style("opacity", 0);
-    });
+        })
+          .on("mouseout", function (d) {
+            var circle = d3.select(this);
+            circle.attr('stroke', 'none')
+            div.transition()
+              .style("opacity", 0);
+          });
 
-}
+      }
 
-function getTooltipHtml(d) {
+      function getTooltipHtml(d) {
 
-}
+      }
 
-function configureByScreen(config) {
-  var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  config.svgWidth = screenWidth > 760 ? 760 : screenWidth;;
-}
+      function configureByScreen(config) {
+        var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        config.svgWidth = screenWidth > 760 ? 760 : screenWidth;;
+      }
 
-d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json', function(json) {
-  drawScatterplot(json);
-});
-      //@ sourceURL=pen.js
+      d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json', function (json) {
+        drawScatterplot(json);
+      });
     </script>
 
-    
-    
-    
-  </body>
+
+
+
+</body>
+
 </html>
- 

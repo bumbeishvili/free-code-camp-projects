@@ -1,0 +1,132 @@
+
+
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>CodePen - Markdown Previewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel='stylesheet prefetch' href='https://cdn.rawgit.com/bumbeishvili/Assets/master/Projects/FreeCodeCamp/Pills/pills.css'>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+
+      <style>
+      body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.row {
+  max-width: 100%;
+}
+
+    </style>
+
+  
+  
+  
+  
+</head>
+
+<body translate="no" >
+
+  <div id='content'></div>
+  
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js'></script>
+<script src='https://cdn.rawgit.com/bumbeishvili/Assets/master/Projects/FreeCodeCamp/ReactMaterialUI/bundle.js'></script>
+
+    <script>
+    'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _materialUi = require('material-ui');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var markdownString = ">You can edit text on the left(top if  small screen) and see changes on the right \r\n\r\n" + "# h1 Heading \r\n" + "## h2 Heading \r\n" + "### h3 Heading \r\n" + "#### h4 Heading \r\n" + "##### h5 Heading \r\n" + "###### h6 Heading \r\n" + " <a id=\"comeback\"></a> \r\n\r\n" + "#  I will be back!   \r\n\r\n" + "## Horizontal Rules \r\n" + "___   \r\n" + "*** \r\n" + "## Text rendering Types \r\n" + "**rendered as bold text** \r\n\r\n" + "_rendered as italicized text_ \r\n\r\n" + "~~Strike through this text.~~ \r\n\r\n" + "## Quotes \r\n" + "> This Is Quote \r\n\r\n" + "## Nestes Quotes \r\n" + "> Donec massa lacus, ultricies a ullamcorper in, fermentum sed augue.  \r\n" + "Nunc augue augue, aliquam non hendrerit ac, commodo vel nisi.  \r\n" + ">> Sed adipiscing elit vitae augue consectetur a gravida nunc vehicula. Donec auctor  \r\n" + "odio non est accumsan facilisis. Aliquam id turpis in dolor tincidunt mollis ac eu diam. \r\n" + ">>> Donec massa lacus, ultricies a ullamcorper in, fermentum sed augue.  \r\n" + "Nunc augue augue, aliquam non hendrerit ac, commodo vel nisi.  \r\n\r\n" + "## Unordered List \r\n" + "* valid bullet \r\n" + "- valid bullet \r\n" + "+ valid bullet \r\n\r\n" + "## Nested Unordered List \r\n" + "+ Lorem ipsum dolor sit amet \r\n" + "+ Consectetur adipiscing elit \r\n" + "+ Integer molestie lorem at massa \r\n" + "+ Facilisis in pretium nisl aliquet \r\n" + "+ Nulla volutpat aliquam velit \r\n" + "  - Phasellus iaculis neque \r\n" + "  - Purus sodales ultricies \r\n" + "  - Vestibulum laoreet porttitor sem \r\n" + "  - Ac tristique libero volutpat at \r\n" + "+ Faucibus porta lacus fringilla vel \r\n" + "+ Aenean sit amet erat nunc \r\n" + "+ Eget porttitor lorem   \r\n\r\n" + "## Ordered List \r\n" + "1. Lorem ipsum dolor sit amet \r\n" + "2. Consectetur adipiscing elit \r\n" + "3. Integer molestie lorem at massa \r\n" + "4. Facilisis in pretium nisl aliquet \r\n" + "5. Nulla volutpat aliquam velit \r\n" + "6. Faucibus porta lacus fringilla vel \r\n" + "7. Aenean sit amet erat nunc \r\n" + "8. Eget porttitor lorem \r\n\r\n" + "## Inline Code Snippets \r\n" + "`this` is keyword in `javascript` \r\n\r\n" + "## Code Blocks \r\n" + "    // achieved with empty spaces \r\n" + "    line 1 of code \r\n" + "    line 2 of code \r\n" + "    line 3 of code \r\n\r\n" + "## Tables \r\n" + "| Option  | Description | \r\n" + "| ------   | -----------| \r\n" + "| data     | path to data files to supply the data that will be passed into templates. | \r\n" + "| engine | engine to be used for processing templates. Handlebars is the default. | \r\n" + "| ext       | extension to be used for dest files. | \r\n\r\n" + "## Basic Link \r\n" + "[Hi, I am markdown](http://assemble.io/docs/Cheatsheet-Markdown.html) \r\n" + "## Titled link \r\n" + "[Hover Me To See title](http://assemble.io/docs/Cheatsheet-Markdown.html \"Good, you done it\") \r\n" + "## images \r\n" + "![Terminator Smiling](http://www.trapshooters.com/attachments/e30d3d72ed7911e2808322000a9e0144_6-jpg.311133/) \r\n" + "## Named Anchors \r\n" + "  [click me to come back ](#comeback) \r\n";
+
+var MarkdownPreviewer = _react2.default.createClass({
+  displayName: 'MarkdownPreviewer',
+
+  handleUserInput: function handleUserInput(markdownString) {
+    this.setState({
+      markdownString: markdownString
+    });
+  },
+  getInitialState: function getInitialState() {
+    return {
+      markdownString: markdownString
+    };
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'row' },
+      _react2.default.createElement(
+        'div',
+        { className: 'half column' },
+        _react2.default.createElement(MarkdownInput, { onUserInput: this.handleUserInput, markdownString: this.state.markdownString })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'half column' },
+        _react2.default.createElement(MarkdownOutput, { marked: marked(this.state.markdownString) })
+      )
+    );
+  }
+});
+
+var MarkdownOutput = _react2.default.createClass({
+  displayName: 'MarkdownOutput',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement('div', { className: 'markdown-output', dangerouslySetInnerHTML: { __html: this.props.marked } })
+    );
+  }
+});
+
+var MarkdownInput = _react2.default.createClass({
+  displayName: 'MarkdownInput',
+
+  handleChange: function handleChange() {
+    this.props.onUserInput(document.getElementById('markdownInput').value);
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'markdown-input ' },
+      _react2.default.createElement(_materialUi.TextField, {
+        hintText: 'type markdown text here',
+        floatingLabelText: 'markdown text',
+        multiLine: true,
+        fullWidth: true,
+        id: 'markdownInput',
+        onChange: this.handleChange,
+        defaultValue: this.props.markdownString
+      })
+    );
+  }
+});
+
+_reactDom2.default.render(_react2.default.createElement(MarkdownPreviewer, null), document.getElementById('content'));
+  </script>
+
+  
+  
+
+</body>
+</html>
+ 

@@ -2,18 +2,18 @@
 
 <!DOCTYPE html>
 <html >
-  <head>
-    <meta charset="UTF-8">
-    <meta name="google" value="notranslate">
 
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>CodePen - Pomodoro clock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
 
-    <title>CodePen - Pomodoro clock</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    
-    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-
-        <style>
+      <style>
       .center {
   margin: 0 auto;
 }
@@ -65,6 +65,9 @@ span {
   transform: translateX(-50%) translateY(-50%);
 }
 
+.time{
+   min-width: 300px;
+}
 .hcenter {
   position: absolute;
   left: 50%;
@@ -92,7 +95,6 @@ span {
   margin-top: -80px;
   margin-left: -35px;
 }
-
 .time {
   color: white;
   margin-left: -25px;
@@ -103,19 +105,29 @@ span {
   }
 }
 
+@media screen and (min-width: 1500px) {
+  .timerText.h1{
+    padding-right: 35px;
+  }
+  .time.h1{
+    padding-right: 38px;
+  }
+}
+
 #breakMinutes,#sessionMinutes{
   margin-top:-10px;
 }
     </style>
 
-    
-    
-    
-  </head>
+  
+  
+  
+  
+</head>
 
-  <body>
+<body translate="no" >
 
-    <h1 class="text-center">Pomodoro Clock</h1>
+  <h1 class="text-center">Pomodoro Clock</h1>
 <div class="col-xs-12">
   <div class="col-md-4"></div>
   <div class="col-md-4 center">
@@ -178,14 +190,14 @@ span {
 
 </div>
 </div>
-    
-    
-        <script>
-      //variables
+  
+  
+    <script>
+    //variables
 var sessionColor = "red";
 var breakColor = "#32cc00";
-var sessionMinutes = 0.25;
-var breakMinutes = 5;
+var sessionMinutes = 40;
+var breakMinutes = 20;
 
 var timerStarted = false;
 var sessionTimerSeconds;
@@ -412,12 +424,11 @@ function setSessionVal(value) {
   updateSettingsView();
   }
 }
-      //@ sourceURL=pen.js
-    </script>
+  </script>
 
-    
-    
-    
-  </body>
+  
+  
+
+</body>
 </html>
  

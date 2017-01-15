@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+    />
+    <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+        color="#111" />
+    <title>CodePen - Tvichtv API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel='stylesheet prefetch' href='//oss.maxcdn.com/semantic-ui/2.1.8/semantic.min.css'>
+
+    <style>
+      body {
+  margin: 0;
+  background-color: #609732;
+}
+
+.wrapper {
+  margin: 10px !important;
+}
+
+canvas {
+  z-index: -1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+}
+
+.m-t-md {
+  margin-top: 20px !important;
+}
+
+.no-v-mp{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+  padding-top:0 !important;
+  padding-bottom:0 !important;
+}
+
+.max-width {
+  width: 100%;
+}
+
+.centr {
+  width: 50% !important;
+  margin: 0 auto !important;
+}
+    </style>
+
+
+
+
+
+</head>
+
+<body translate="no">
+
+    <div class="ui stackable   wrapper  grid " ng-app="twitch" ng-controller="twitchCtrl as tw">
+        <div class="ui row  no-v-mp">
+            <h1 class="ui header centr  ">
+                <i class="twitch icon"></i>
+                <div class="content ">
+                    Twitch streaming information
+                </div>
+            </h1>
+        </div>
+        <div class="column four wide ">
+            <div class="ui card centered max-width m-t-md">
+                <div class="ui {{tw.fccInfo.loadingStatus}} inverted dimmer">
+                    <div class="ui text loader"></div>
+                </div>
+                <a class="image" href="{{tw.fccInfo.url}}">
+                    <img src="{{tw.fccInfo.logo}}">
+                </a>
+                <div class="content">
+                    <a class="header" href="http://www.twitch.tv/{{tw.fccInfo.name}}" ng-bind="tw.fccInfo.name"></a>
+                    <div class="meta">
+                        <span ng-bind='tw.fccInfo.status'></span>
+                        <h6 ng-bind="tw.fccInfo.additional" class='no-v-mp'></h6>
+                    </div>
+                </div>
+                <div class="extra content">
+                    <i class="film  icon {{tw.fccInfo.online?'green':'red'}}"></i>
+                    <a class="red" href="{{tw.fccInfo.url}}" ng-bind="tw.fccInfo.online?'Online':'Offline'"></a>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class=" column grid twelve wide  ">
+            <div class="column ">
+                <div class=" ui  center aligned label  max-width ">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" ng-model="tw.onlyOnline" ng-change="tw.filterList()" name="public">
+                        <label>Show only online streamers</label>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui stackable five cards">
+                    <div class="ui card max-width m-t-md" ng-repeat="card in tw.streamers | orderBy:'online' ">
+                        <div class="ui {{card.loadingStatus}} inverted dimmer">
+                            <div class="ui text loader"></div>
+                        </div>
+                        <div class="image ">
+                            <img src="{{card.logo}}">
+                        </div>
+                        <div class="content">
+                            <a class="header" href="http://www.twitch.tv/{{card.name}}" ng-bind="card.name"></a>
+                        </div>
+                        <div class="extra no-padder">
+                            <h3 ng-bind="card.status" class='no-v-mp'></h3>
+                            <h6 ng-bind="card.additional" class='no-v-mp'></h6>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js'></script>
+
+    <script>
+        var myApp = angular.module("twitch", []);
+        myApp.controller("twitchCtrl", function ($http) {
+            var maxsRequestCount = 2;
+            var t = this;
+            t.filterList = filterList;
+            t.streamingStatusIcon = "red";
+            t.streamers = [];
+            t.fccInfo = {
+                name: "freecodecamp"
+            }
+            t.userNames = [
+                t.fccInfo, {
+                    name: "brunofin"
+                }, {
+                    name: "torbeck"
+                }, {
+                    name: "comster404"
+                }, {
+                    name: "terakilobyte"
+                }, {
+                    name: "OgamingSC2"
+                }, {
+                    name: "RobotCaleb"
+                }, {
+                    name: "thomasballinger"
+                }, {
+                    name: "noobs2ninjas"
+                }, {
+                    name: "beohoff"
+                }
+            ];
+
+            t.userNames.forEach(function (obj) {
+                loadInfo(obj.name);
+            });
+            filterList();
+            setTimeout(function () {
+                t.userNames.forEach(function (obj) {
+                    obj.loadingStatus = '';
+                });
+            }, 5000);
+
+            function loadInfo(username) {
+                var streamInfoUrl = 'https://api.twitch.tv/kraken/streams/';
+                var userInfoUrl = ' https://api.twitch.tv/kraken/channels/';
+
+                setUsersProp(username, "loadingStatus", "active");
+                setUsersProp(username, "requestCount", 0);
+
+                $http.jsonp(streamInfoUrl + username + "?callback=JSON_CALLBACK").then(function (response) {
+                    processStreamData(response.data, username)
+                }, function () {
+                    increaseReqCount(username);
+                    extendUsersObject(username, {});
+                });
+
+                $http.jsonp(userInfoUrl + username + "?callback=JSON_CALLBACK").then(function (response) {
+                    processUserData(response.data, username)
+                }, function () {
+                    increaseReqCount(username);
+                    extendUsersObject(username, {});
+                });
+            }
+
+            function getUserPropValue(username, prop) {
+                var user = t.userNames.find(function (o) {
+                    return o.name === username;
+                });
+
+                if (user != null) return user[prop];
+            }
+
+            function setUsersProp(username, prop, value) {
+
+                var user = t.userNames.find(function (o) {
+                    return o.name === username;
+                });
+
+                if (user != null) user[prop] = value;
+
+            }
+
+            function extendUsersObject(username, obj) {
+                var user = t.userNames.find(function (o) {
+                    return o.name === username;
+                });
+
+                user = angular.extend(user, obj);
+                processLoadingState(username)
+            }
+
+            function increaseReqCount(username) {
+                var count = getUserPropValue(username, 'requestCount');
+                debugger;
+                if (!count) count = 0;
+                setUsersProp(username, "requestCount", count + 1);
+            }
+
+            function processLoadingState(username) {
+                var user = t.userNames.find(function (o) {
+                    return o.name === username;
+                });
+                console.log(user);
+                if (user.requestCount == maxsRequestCount) {
+                    user.loadingStatus = "";
+                }
+            }
+
+            function processUserData(response, username) {
+                increaseReqCount(username);
+                var obj = {};
+                if (response.error) obj.status = "Account closed or doesn't exists";
+                else {
+                    obj.logo = response.logo;
+                }
+                if (!obj.logo) obj.logo = 'http://blumen-olli-berlin.de/images/portrait-dummy.jpg';
+                extendUsersObject(username, obj);
+            }
+
+            function processStreamData(response, username) {
+                increaseReqCount(username);
+                if (response.error) return;
+
+                var obj = {};
+                if (response.stream == null) {
+                    obj.status = "OffLine"
+                } else {
+                    if (response.stream) {
+                        if (response.stream.channel) {
+                            var channel = response.stream.channel;
+                            obj.status = channel.game;
+                            obj.additional = channel.status;
+                            obj.online = true;
+
+                        }
+                    }
+                }
+                extendUsersObject(username, obj);
+            }
+
+            function filterList() {
+                console.log("changed")
+                t.streamers = [];
+                if (!t.onlyOnline) {
+                    t.streamers = t.userNames;
+                } else {
+                    t.userNames.forEach(function (val) {
+                        if (val.online) {
+                            t.streamers.push(val);
+                        }
+                    });
+                }
+            } //filterList
+
+        }); // end ctrl
+
+        generatePattern();
+
+        function generatePattern() {
+            var height = 1500;
+            if (window.innerWidth <= 800 && window.innerHeight <= 600) {
+                height = 8000;
+            }
+
+            var pattern = Trianglify({
+                width: window.innerWidth,
+                height: height,
+                x_colors: "Greens"
+            });
+            var canvas = pattern.canvas();
+            canvas.id = "triangle";
+            document.body.appendChild(canvas);
+        }
+
+        window.onresize = function () {
+
+            if (!(window.innerWidth <= 800 && window.innerHeight <= 600)) {
+                document.getElementById("triangle").remove();
+                generatePattern();
+            }
+
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>

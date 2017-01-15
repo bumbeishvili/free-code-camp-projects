@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
-    <meta name="google" value="notranslate">
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+  />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+    color="#111" />
+  <title>CodePen - Simon Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <title>CodePen - Simon Game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    
-    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css'>
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css'>
 
-        <style>
+  <style>
       .circular{
   padding:60px!important;
   display:block !important;
@@ -89,14 +90,25 @@
 
     </style>
 
-    
-    
-    
-  </head>
 
-  <body>
 
-    <audio AUTOPLAY>
+
+
+</head>
+
+<body translate="no">
+
+
+  <div id="fb-root"></div>
+  <script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+    fjs.parentNode.insertBefore(js, fjs);
+  } (document, 'script', 'facebook-jssdk'));
+</script>
+<audio AUTOPLAY>
 </audio>
 <div id="directive" class='directive ui left pointing blue label'></div>
 <div class="container">
@@ -135,368 +147,369 @@
   </div>
 
   <div id="strictMode" class="ui toggle checkbox">
-    <input  type="checkbox" tabindex="0" class="hidden">
+    <input type="checkbox" tabindex="0" class="hidden">
     <label>Strict Mode</label>
   </div>
   <button id="startButton" class="ui primary button"></button>
 
 
 </div>
-    
-    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<div style="margin-left:20px !important" class="fb-like" data-href="https://www.facebook.com/dato.apps/" data-width="20" data-layout="standard" data-action="like"
+data-show-faces="false" data-share="false"></div>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js'></script>
 
-        <script>
+<script>
       function Game(passedDisplay) {
-  var that = this;
-  var MAX_ORDER_SEQUENCE = 20;
+        var that = this;
+        var MAX_ORDER_SEQUENCE = 20;
 
-  var display = passedDisplay;
+        var display = passedDisplay;
 
-  var currentStep = 0;
-  var winQuantity = getSavedWinQuantity();;
-  var userClickIndex = 0;
+        var currentStep = 0;
+        var winQuantity = getSavedWinQuantity();;
+        var userClickIndex = 0;
 
-  var strictMode = false;
-  var gameStarted = false;
-  var circleClickEnabled = false;
+        var strictMode = false;
+        var gameStarted = false;
+        var circleClickEnabled = false;
 
-  var directive = "Press start";
-  var startButtonTitle = "start";
+        var directive = "Press start";
+        var startButtonTitle = "start";
 
-  var order = [];
+        var order = [];
 
-  this.getCurrentStep = getCurrentStep;
-  this.getWinQuantity = getWinQuantity;
-  this.getDirective = getDirective;
-  this.getStrictMode = getStrictMode;
-  this.getStartButtonTitle = getStartButtonTitle;
-  this.toggleStrictMode = toggleStrictMode;
-  this.getOrder = getOrder;
+        this.getCurrentStep = getCurrentStep;
+        this.getWinQuantity = getWinQuantity;
+        this.getDirective = getDirective;
+        this.getStrictMode = getStrictMode;
+        this.getStartButtonTitle = getStartButtonTitle;
+        this.toggleStrictMode = toggleStrictMode;
+        this.getOrder = getOrder;
 
-  display.updateUI(this);
+        display.updateUI(this);
 
-  function getCurrentStep() {
-    return currentStep;
-  }
+        function getCurrentStep() {
+          return currentStep;
+        }
 
-  function getWinQuantity() {
-    return winQuantity;
-  }
+        function getWinQuantity() {
+          return winQuantity;
+        }
 
-  function getStrictMode() {
-    return strictMode;
-  }
+        function getStrictMode() {
+          return strictMode;
+        }
 
-  function getDirective() {
-    return directive;
-  }
+        function getDirective() {
+          return directive;
+        }
 
-  function getStartButtonTitle() {
-    return startButtonTitle;
-  }
+        function getStartButtonTitle() {
+          return startButtonTitle;
+        }
 
-  function getOrder(index) {
-    return order[index];
-  }
+        function getOrder(index) {
+          return order[index];
+        }
 
-  function startAgain() {
-    userClickIndex = 0;
-    display.startAnimating(that);
-  }
+        function startAgain() {
+          userClickIndex = 0;
+          display.startAnimating(that);
+        }
 
-  function toggleStrictMode() {
-    strictMode = !strictMode;
-    display.updateStrictMode(that);
-  }
+        function toggleStrictMode() {
+          strictMode = !strictMode;
+          display.updateStrictMode(that);
+        }
 
-  function saveWinQuantity() {
-    localStorage.setItem('winQuantity', winQuantity);
-  };
+        function saveWinQuantity() {
+          localStorage.setItem('winQuantity', winQuantity);
+        };
 
-  function getSavedWinQuantity() {
-    var retrievedObject = localStorage.getItem('winQuantity');
-    if (retrievedObject != null) return retrievedObject;
-    return 0;
-  }
+        function getSavedWinQuantity() {
+          var retrievedObject = localStorage.getItem('winQuantity');
+          if (retrievedObject != null) return retrievedObject;
+          return 0;
+        }
 
-  function getNewRandomCircleIndex() {
-    if (!order.length) {
-      var date = new Date();
-      return date.getMilliseconds() % 4;
-    }
-    var notRepeatedArray = [0, 1, 2, 3].filter(function(v) {
-      return v !== order[order.length - 1]
-    });
-    var randIndex = utils.randomIntFromInterval(0, 2);
-    return notRepeatedArray[randIndex];
-  }
+        function getNewRandomCircleIndex() {
+          if (!order.length) {
+            var date = new Date();
+            return date.getMilliseconds() % 4;
+          }
+          var notRepeatedArray = [0, 1, 2, 3].filter(function (v) {
+            return v !== order[order.length - 1]
+          });
+          var randIndex = utils.randomIntFromInterval(0, 2);
+          return notRepeatedArray[randIndex];
+        }
 
-  function win() {
-    that.setDirective("you have won!!! ");
-    display.makeWinSound();
-    winQuantity += 1;
-    saveWinQuantity();
-    display.updateWinQuantity(that);
+        function win() {
+          that.setDirective("you have won!!! ");
+          display.makeWinSound();
+          winQuantity += 1;
+          saveWinQuantity();
+          display.updateWinQuantity(that);
 
-    setTimeout(function() {
-      restartGame();
-    }, 1000);
+          setTimeout(function () {
+            restartGame();
+          }, 1000);
 
-  }
+        }
 
-  function addLevelDifficulty() {
-    if (++userClickIndex == order.length) {
-      if (order.length == MAX_ORDER_SEQUENCE) {
-        win();
-      } else {
-        order.push(getNewRandomCircleIndex());
-        that.incrementCurrentStep();
-        startAgain();
+        function addLevelDifficulty() {
+          if (++userClickIndex == order.length) {
+            if (order.length == MAX_ORDER_SEQUENCE) {
+              win();
+            } else {
+              order.push(getNewRandomCircleIndex());
+              that.incrementCurrentStep();
+              startAgain();
+            }
+          }
+        }
+
+        function startGame() {
+          gameStarted = true;
+          order.push(getNewRandomCircleIndex());
+          that.setStartButtonTitle('restart');
+          display.startAnimating(that, function () { });
+        }
+
+        function restartGame() {
+          order = [];
+          order.push(getNewRandomCircleIndex());
+          userClickIndex = 0;
+          that.emptyCurrentStep();
+          display.startAnimating(that, function () { });
+        }
+
+        function chooseCircle(clickedCircle) {
+          var clickedCircleIndex = display.getClickedIndex(clickedCircle);
+
+          if (order[userClickIndex] == clickedCircleIndex) {
+            display.processSuccessClick(clickedCircle);
+            display.makeSound(clickedCircleIndex);
+            addLevelDifficulty();
+          } else {
+            that.setDirective("wrong choice");
+            that.enableCircleClick(false);
+            display.processErrorClick(clickedCircle);
+            display.makeErrorSound();
+            setTimeout(function () {
+              if (strictMode) {
+                restartGame();
+              } else {
+                startAgain();
+              }
+            }, 1000);
+          }
+        }
+
+        this.processCircleClick = function (event) {
+          if (circleClickEnabled) {
+            var clickedCircle = event.target;
+            chooseCircle(clickedCircle);
+          }
+        }
+
+        this.processStartButtonClick = function (event) {
+          if (!gameStarted) {
+            startGame();
+          } else {
+            restartGame();
+          }
+        }
+
+        this.incrementCurrentStep = function () {
+          currentStep++;
+          display.updateCurrentStep(this);
+        }
+
+        this.emptyCurrentStep = function () {
+          currentStep = 0;
+          display.updateCurrentStep(this);
+        }
+
+        this.updateCurrentStep = function () {
+          currentStep = order.length;
+          display.updateCurrentStep(this);
+        }
+
+        this.setDirective = function (newDirective) {
+          directive = newDirective;
+          display.updateDirective(this);
+        }
+
+        this.setStartButtonTitle = function (title) {
+          startButtonTitle = title;
+          display.updateStartButton(this);
+        }
+
+        this.enableCircleClick = function (flag) {
+          circleClickEnabled = flag;
+        }
       }
-    }
-  }
 
-  function startGame() {
-    gameStarted = true;
-    order.push(getNewRandomCircleIndex());
-    that.setStartButtonTitle('restart');
-    display.startAnimating(that, function() {});
-  }
+      function Display() {
+        var directive;
+        var currentStep;
+        var winQuantity;
+        var strictMode;
 
-  function restartGame() {
-    order = [];
-    order.push(getNewRandomCircleIndex());
-    userClickIndex = 0;
-    that.emptyCurrentStep();
-    display.startAnimating(that, function() {});
-  }
+        var startButton = "Press start";
+        var circles = [];
 
-  function chooseCircle(clickedCircle) {
-    var clickedCircleIndex = display.getClickedIndex(clickedCircle);
+        var errorSound = new Audio('http://www.soundjig.com/pages/soundfx/beeps.php?mp3=beep10.mp3');
+        var sounds = [];
+        sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'));
+        sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'));
+        sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'));
+        sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'));
+        var winSound = new Audio('http://soundbible.com/mp3/Ta Da-SoundBible.com-1884170640.mp3');
 
-    if (order[userClickIndex] == clickedCircleIndex) {
-      display.processSuccessClick(clickedCircle);
-      display.makeSound(clickedCircleIndex);
-      addLevelDifficulty();
-    } else {
-      that.setDirective("wrong choice");
-      that.enableCircleClick(false);
-      display.processErrorClick(clickedCircle);
-      display.makeErrorSound();
-      setTimeout(function() {
-        if (strictMode) {
-          restartGame();
-        } else {
-          startAgain();
+        this.makeSound = makeSound;
+        this.makeErrorSound = makeErrorSound;
+        this.makeWinSound = makeWinSound;
+
+        initialise();
+
+        this.initialiseSemantic = function () {
+          $('.ui.checkbox').checkbox();
         }
-      }, 1000);
-    }
-  }
 
-  this.processCircleClick = function(event) {
-    if (circleClickEnabled) {
-      var clickedCircle = event.target;
-      chooseCircle(clickedCircle);
-    }
-  }
-
-  this.processStartButtonClick = function(event) {
-    if (!gameStarted) {
-      startGame();
-    } else {
-      restartGame();
-    }
-  }
-
-  this.incrementCurrentStep = function() {
-    currentStep++;
-    display.updateCurrentStep(this);
-  }
-
-  this.emptyCurrentStep = function() {
-    currentStep = 0;
-    display.updateCurrentStep(this);
-  }
-
-  this.updateCurrentStep = function() {
-    currentStep = order.length;
-    display.updateCurrentStep(this);
-  }
-
-  this.setDirective = function(newDirective) {
-    directive = newDirective;
-    display.updateDirective(this);
-  }
-
-  this.setStartButtonTitle = function(title) {
-    startButtonTitle = title;
-    display.updateStartButton(this);
-  }
-
-  this.enableCircleClick = function(flag) {
-    circleClickEnabled = flag;
-  }
-}
-
-function Display() {
-  var directive;
-  var currentStep;
-  var winQuantity;
-  var strictMode;
-
-  var startButton = "Press start";
-  var circles = [];
-  
-  var errorSound = new Audio('http://www.soundjig.com/pages/soundfx/beeps.php?mp3=beep10.mp3');
-  var sounds = [];
-  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'));
-  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'));
-  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'));
-  sounds.push(new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'));
-  var winSound = new Audio('http://soundbible.com/mp3/Ta Da-SoundBible.com-1884170640.mp3');
-
-  this.makeSound = makeSound;
-  this.makeErrorSound = makeErrorSound;
-  this.makeWinSound = makeWinSound;
-
-  initialise();
-
-  this.initialiseSemantic = function() {
-    $('.ui.checkbox').checkbox();
-  }
-
-  this.updateUI = function(game) {
-    this.updateDirective(game);
-    this.updateCurrentStep(game);
-    this.updateWinQuantity(game);
-    this.updateStrictMode(game);
-    this.updateStartButton(game);
-  }
-
-  this.updateDirective = function(game) {
-    directive.innerHTML = game.getDirective();;
-  }
-  this.updateCurrentStep = function(game) {
-    currentStep.innerHTML = game.getCurrentStep();
-  }
-  this.updateWinQuantity = function(game) {
-    winQuantity.innerHTML = game.getWinQuantity();
-  }
-  this.updateStrictMode = function(game) {
-    strictMode.checked = game.getStrictMode();
-  }
-  this.updateStartButton = function(game) {
-    startButton.innerHTML = game.getStartButtonTitle();
-  }
-
-  this.getClickedIndex = function(clickedCircle) {
-    var clickedIndex = circles.map(function(v) {
-      return v.id;
-    }).indexOf(clickedCircle.id);
-    return clickedIndex;
-  }
-
-  this.processSuccessClick = function(clickedCircle) {
-    simulateClick(clickedCircle, " black");
-  };
-
-  this.processErrorClick = function(clickedCircle) {
-    simulateClick(clickedCircle, ' red');
-  }
-
-  function simulateClick(clickedCircle, className) {
-    darkenCircle(clickedCircle, className);
-    setTimeout(function() {
-      lighten(clickedCircle, className)
-    }, 500);
-  }
-
-  this.startAnimating = function(game) {
-    setTimeout(function() {
-      game.setDirective("follow click order with attention");
-      game.enableCircleClick(false);
-      var currentIndex = 0;
-      var currentOrder;
-      var previousCircle;
-      var func = setInterval(function() {
-        if (previousCircle) lighten(previousCircle);
-        currentOrder = game.getOrder(currentIndex++)
-        if (currentOrder != null) {
-          darkenCircle(circles[currentOrder]);
-          makeSound(currentOrder);
-          previousCircle = circles[currentOrder];
-        } else {
-          clearInterval(func);
-          game.setDirective("repeat order");
-          game.enableCircleClick(true);
+        this.updateUI = function (game) {
+          this.updateDirective(game);
+          this.updateCurrentStep(game);
+          this.updateWinQuantity(game);
+          this.updateStrictMode(game);
+          this.updateStartButton(game);
         }
-      }, 1000);
-    }, 1000)
 
-  }
+        this.updateDirective = function (game) {
+          directive.innerHTML = game.getDirective();;
+        }
+        this.updateCurrentStep = function (game) {
+          currentStep.innerHTML = game.getCurrentStep();
+        }
+        this.updateWinQuantity = function (game) {
+          winQuantity.innerHTML = game.getWinQuantity();
+        }
+        this.updateStrictMode = function (game) {
+          strictMode.checked = game.getStrictMode();
+        }
+        this.updateStartButton = function (game) {
+          startButton.innerHTML = game.getStartButtonTitle();
+        }
 
-  function initialise() {
-    directive = el("directive");
-    currentStep = el("currentStep");
-    winQuantity = el("winQuantity");
-    strictMode = el("strictMode");
-    startButton = el("startButton");
+        this.getClickedIndex = function (clickedCircle) {
+          var clickedIndex = circles.map(function (v) {
+            return v.id;
+          }).indexOf(clickedCircle.id);
+          return clickedIndex;
+        }
 
-    circles.push(el("blue"));
-    circles.push(el("green"));
-    circles.push(el("purple"));
-    circles.push(el("orange"));
-  }
+        this.processSuccessClick = function (clickedCircle) {
+          simulateClick(clickedCircle, " black");
+        };
 
-  function el(id) {
-    return document.getElementById(id);
-  }
+        this.processErrorClick = function (clickedCircle) {
+          simulateClick(clickedCircle, ' red');
+        }
 
-  function darkenCircle(circle, className) {
-    circle.className = circle.className + (className ? className : " black");
-  }
+        function simulateClick(clickedCircle, className) {
+          darkenCircle(clickedCircle, className);
+          setTimeout(function () {
+            lighten(clickedCircle, className)
+          }, 500);
+        }
 
-  function lighten(circle, className) {
-    return circle.className = circle.className.replace(className ? className : "black", "");
-  }
+        this.startAnimating = function (game) {
+          setTimeout(function () {
+            game.setDirective("follow click order with attention");
+            game.enableCircleClick(false);
+            var currentIndex = 0;
+            var currentOrder;
+            var previousCircle;
+            var func = setInterval(function () {
+              if (previousCircle) lighten(previousCircle);
+              currentOrder = game.getOrder(currentIndex++)
+              if (currentOrder != null) {
+                darkenCircle(circles[currentOrder]);
+                makeSound(currentOrder);
+                previousCircle = circles[currentOrder];
+              } else {
+                clearInterval(func);
+                game.setDirective("repeat order");
+                game.enableCircleClick(true);
+              }
+            }, 1000);
+          }, 1000)
 
-  function makeWinSound() {
-    winSound.play();
-  }
+        }
 
-  function makeErrorSound() {
-    errorSound.play();
-  }
+        function initialise() {
+          directive = el("directive");
+          currentStep = el("currentStep");
+          winQuantity = el("winQuantity");
+          strictMode = el("strictMode");
+          startButton = el("startButton");
 
-  function makeSound(index) {
+          circles.push(el("blue"));
+          circles.push(el("green"));
+          circles.push(el("purple"));
+          circles.push(el("orange"));
+        }
 
-    sounds[index].play();
-  }
+        function el(id) {
+          return document.getElementById(id);
+        }
 
-}
+        function darkenCircle(circle, className) {
+          circle.className = circle.className + (className ? className : " black");
+        }
 
-utils = {
-  randomIntFromInterval: function(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-}
+        function lighten(circle, className) {
+          return circle.className = circle.className.replace(className ? className : "black", "");
+        }
 
-$(document).ready(function() {
-  var display = new Display();
-  display.initialiseSemantic();
-  var game = new Game(display);
-  //events
-  $('.circular').click(game.processCircleClick);
-  $('#startButton').click(game.processStartButtonClick);
-  $('#strictMode').click(game.toggleStrictMode)
-});
-      //@ sourceURL=pen.js
+        function makeWinSound() {
+          winSound.play();
+        }
+
+        function makeErrorSound() {
+          errorSound.play();
+        }
+
+        function makeSound(index) {
+
+          sounds[index].play();
+        }
+
+      }
+
+      utils = {
+        randomIntFromInterval: function (min, max) {
+          return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+      }
+
+      $(document).ready(function () {
+        var display = new Display();
+        display.initialiseSemantic();
+        var game = new Game(display);
+        //events
+        $('.circular').click(game.processCircleClick);
+        $('#startButton').click(game.processStartButtonClick);
+        $('#strictMode').click(game.toggleStrictMode)
+      });
     </script>
 
-    
-    
-    
-  </body>
+
+
+
+</body>
+
 </html>
- 
