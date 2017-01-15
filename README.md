@@ -53,25 +53,25 @@
 
 
 
-[calc]:http://s.codepen.io/bumbeishvili/debug/wMyxXB
-[pom]:http://s.codepen.io/bumbeishvili/debug/wMmYWr
-[ttt]:http://s.codepen.io/bumbeishvili/debug/wGaENr
-[rqm]:http://s.codepen.io/bumbeishvili/debug/obEyoB
-[lw]:http://s.codepen.io/bumbeishvili/debug/bEjwLb
-[wv]:http://s.codepen.io/bumbeishvili/debug/obVoYo
-[twich]:http://s.codepen.io/bumbeishvili/debug/VeJbqY
-[trib]:http://s.codepen.io/bumbeishvili/debug/NxoQEa
-[portf]:http://s.codepen.io/bumbeishvili/debug/BjJvgY#AboutMe
-[simon]:https://codepen.io/bumbeishvili/debug/GZEwmY
-[bar]:http://codepen.io/bumbeishvili/debug/bpMMVR
-[scat]:http://s.codepen.io/bumbeishvili/debug/JXadpY
-[heat]:http://s.codepen.io/bumbeishvili/debug/reqPav
-[force]:http://s.codepen.io/bumbeishvili/debug/gryQBa
-[meteors]:http://s.codepen.io/bumbeishvili/debug/vKYygY
-[markdown]:http://s.codepen.io/bumbeishvili/debug/jrPLyJ
-[board]:http://s.codepen.io/bumbeishvili/debug/WxGwKa
-[recipe]:http://s.codepen.io/bumbeishvili/debug/gMLwYE
-[lifegame]:http://s.codepen.io/bumbeishvili/debug/yJPyGx
+[calc]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[pom]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[ttt]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[rqm]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[lw]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[wv]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[twich]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[trib]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[portf]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[simon]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[bar]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/BarChart/
+[scat]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/ScatterplotChart/
+[heat]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/HeatMap/
+[force]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/ForceGraph/
+[meteors]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/ProjectionMap/
+[markdown]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/MarkdownPreviewer/
+[board]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[recipe]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/RecipeBox/
+[lifegame]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/GameOfLife/
 
 
 
