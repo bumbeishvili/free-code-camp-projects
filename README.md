@@ -61,7 +61,7 @@
 [lw]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Intermediate/LocalWeather/
 [wv]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Intermediate/WikipediaViewer/
 [twich]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Intermediate/TwichTV/
-[trib]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Basic/Portfolio/
+[trib]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Basic/TributePage/
 [portf]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Basic/Portfolio/
 [bar]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/BarChart/
 [scat]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/ScatterplotChart/
