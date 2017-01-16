@@ -53,16 +53,16 @@
 
 
 
-[calc]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[pom]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[ttt]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[rqm]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[lw]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[wv]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[twich]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[trib]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[portf]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
-[simon]:https://bumbeishvili.github.io/free-code-camp-projects/ReactAndSass/CamperLeaderboard/
+[calc]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Advanced/Calculator/
+[pom]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Advanced/PomodoroClock/
+[ttt]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Advanced/TicTacToe/
+[simon]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Advanced/SimonGame/
+[rqm]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Intermediate/RandomQuoteMachine/
+[lw]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Intermediate/LocalWeather/
+[wv]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Intermediate/WikipediaViewer/
+[twich]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Intermediate/TwichTV/
+[trib]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Basic/Portfolio/
+[portf]:https://bumbeishvili.github.io/free-code-camp-projects/FrontEnd/Basic/Portfolio/
 [bar]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/BarChart/
 [scat]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/ScatterplotChart/
 [heat]:https://bumbeishvili.github.io/free-code-camp-projects/DataVisualization/HeatMap/
